@@ -1,15 +1,15 @@
 import "./App.css";
-import { Button } from "./components/ui/button";
-import { useTheme } from "./contexts/ThemeProvider";
+import Header from "./components/Header";
+import Searchbar from "./components/Searchbar";
 
 function App() {
-  const { theme, toggleTheme } = useTheme();
-
   return (
-    <div className="">
-      Hello
-      <Button onClick={toggleTheme}>Toggle</Button>
-    </div>
+    <>
+      <Header />
+      <main className="px-8 md:px-20 py-10">
+        <Searchbar />
+      </main>
+    </>
   );
 }
 
