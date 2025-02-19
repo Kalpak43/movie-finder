@@ -2,14 +2,19 @@ import { Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { useState } from "react";
+import { useAppDispatch } from "@/app/hook";
+import { searchMovies } from "@/features/movies/movieThunk";
 
 function Searchbar() {
+  const dispatch = useAppDispatch();
   const [search, setSearch] = useState<string>("");
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     console.log(search);
+
+    dispatch(searchMovies(search));
   }
 
   return (
