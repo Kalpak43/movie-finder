@@ -9,9 +9,11 @@ header {
 :root {
   --header: #fff;
   --search: #eaeaea;
+  --highlight: #dbb926;
 }
 
 .dark {
   --header: #000;
   --search: #1a1a1a;
+  --highlight: #d8c882;
 }

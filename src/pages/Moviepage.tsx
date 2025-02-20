@@ -6,8 +6,19 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getFavorites } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import axios from "axios";
+import { Star } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const API_KEY = import.meta.env.VITE_OMDB_KEY;
 const BASE_URL = import.meta.env.VITE_OMDB_URL;
@@ -77,56 +88,113 @@ function MoviePage() {
   };
 
   return (
-    <div className="flex justify-center mt-10">
-      <Card className="w-full max-w-2xl">
-        <CardHeader>
-          <CardTitle>
-            {movie.Title} ({movie.Year})
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col md:flex-row gap-4">
+    <div className="space-y-2">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-[500]">{movie.Title}</h1>
+        <div className="flex items-center justify-between py-1">
+          <div className="flex items-center gap-2">
+            <p className="text-sm text-muted-foreground pr-2">{movie.Year}</p>
+            <div className="p-[2px] bg-muted-foreground rounded-full"></div>
+            <p className="text-sm text-muted-foreground pr-2">{movie.Rated}</p>
+            <div className="p-[2px] bg-muted-foreground rounded-full"></div>
+            <p className="text-sm text-muted-foreground">{movie.Runtime}</p>
+          </div>
+
+          <Button
+            onClick={() => {
+              movie.fav
+                ? removeFromFavorites(movie)
+                : handleAddToFavorties(movie);
+            }}
+            className={`${
+              movie.fav
+                ? "bg-[#f6c700]"
+                : "border-1 border-[#f6c700] bg-transparent text-primary hover:bg-[#f6c700]"
+            }`}
+          >
+            <Star />
+            {movie.fav ? "Remove From Favourites" : "Add to Favourites"}
+          </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <Card>
           <img
             src={movie.Poster}
             alt={movie.Title}
-            className="w-48 rounded-lg shadow-md"
+            className="w-full rounded-lg shadow-md"
           />
-          <div className="flex flex-col gap-2">
-            <p>
-              <strong>Genre:</strong> {movie.Genre}
-            </p>
-            <p>
-              <strong>Director:</strong> {movie.Director}
-            </p>
-            <p>
-              <strong>Actors:</strong> {movie.Actors}
-            </p>
-            <p>
-              <strong>Plot:</strong> {movie.Plot}
-            </p>
-            <p>
-              <strong>Runtime:</strong> {movie.Runtime}
-            </p>
-            <p>
-              <strong>Language:</strong> {movie.Language}
-            </p>
-            <p>
-              <strong>Country:</strong> {movie.Country}
-            </p>
-            <p>
-              <strong>IMDb Rating:</strong> <Badge>{movie.imdbRating}</Badge>
-            </p>
+        </Card>
+        <div className="col-span-3 h-full">
+          <Card className="h-full p-4">
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-[600]">Genre</TableCell>
+                  <TableCell>
+                    <div className="flex gap-2 flex-wrap">
+                      {movie.Genre.split(",").map((g) => (
+                        <Badge className="py-1 px-4" variant={"secondary"}>
+                          {g}
+                        </Badge>
+                      ))}
+                    </div>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-[600]">Plot</TableCell>
+                  <TableCell>{movie.Plot}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-[600]">Country</TableCell>
+                  <TableCell>{movie.Country}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-[600]">Language</TableCell>
+                  <TableCell>{movie.Language}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Card>
+        </div>
+      </div>
 
-            <Button
-              onClick={() => {
-                movie.fav
-                  ? removeFromFavorites(movie)
-                  : handleAddToFavorties(movie);
-              }}
-            >
-              {movie.fav ? "Remove From Favourites" : "Add to Favourites"}
-            </Button>
-          </div>
-        </CardContent>
+      <Card className="h-full p-4">
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TableCell className="font-[600]">Director</TableCell>
+              <TableCell className="text-[var(--highlight)]">
+                {movie.Director}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-[600]">Writers</TableCell>
+              <TableCell className="text-[var(--highlight)]">
+                {movie.Writer}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-[600]">Cast</TableCell>
+              <TableCell className="text-[var(--highlight)]">
+                {movie.Actors}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-[600]">Awards</TableCell>
+              <TableCell className="text-[var(--highlight)]">
+                {movie.Awards}
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-[600]">Website</TableCell>
+              <TableCell className="text-[var(--highlight)]">
+                {movie.Website}
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
       </Card>
     </div>
   );
