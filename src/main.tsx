@@ -5,13 +5,16 @@ import App from "./App.tsx";
 import { ThemeProvider } from "./contexts/ThemeProvider.tsx";
 import { Provider } from "react-redux";
 import { store } from "./app/store.ts";
+import { BrowserRouter } from "react-router";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ThemeProvider>
+    </BrowserRouter>
   </StrictMode>
 );

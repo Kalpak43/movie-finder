@@ -16,6 +16,11 @@ export const searchMovies = createAsyncThunk(
         return thunkAPI.rejectWithValue(response.statusText);
       }
 
+      const { data } = response;
+
+      if (data.Error) return thunkAPI.rejectWithValue(data.Error);
+
+      console.log(data);
       return response.data.Search;
     } catch (e) {
       if (e instanceof Error) {

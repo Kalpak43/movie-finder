@@ -1,12 +1,15 @@
 import { useTheme } from "@/contexts/ThemeProvider";
 import { Button } from "./ui/button";
 import { Moon, Sun } from "lucide-react";
+import { Link } from "react-router";
 
 function Header() {
   const { theme, toggleTheme } = useTheme();
   return (
     <header className="flex items-center gap-8 justify-between border-b-1 py-4 px-8">
-      <h2 className="text-2xl font-bold">Movie Finder</h2>
+      <Link to={"/"}>
+        <h2 className="text-2xl font-bold">Movie Finder</h2>
+      </Link>
       <Button
         variant={"outline"}
         size={"icon"}
