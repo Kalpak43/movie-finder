@@ -4,6 +4,7 @@ import { Moon, Sun } from "lucide-react";
 import { Link } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { signOut } from "@/features/auth/authThunk";
+import Searchbar from "./Searchbar";
 
 function Header() {
   const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ function Header() {
       <Link to={"/"}>
         <h2 className="text-2xl font-bold">Movie Finder</h2>
       </Link>
+      <Searchbar />
       <nav className="flex items-center gap-8">
         {user ? (
           <>

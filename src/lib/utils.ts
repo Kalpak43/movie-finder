@@ -37,17 +37,3 @@ export async function removeFavorite(user_id: string, movie_id: string) {
     error,
   };
 }
-
-// export const getFavorites = async (user_id: string) => {
-//   const { data, error } = await supabase
-//     .from("favorites")
-//     .select("*")
-//     .eq("user_id", user_id);
-
-//   if (error) {
-//     console.error("Error fetching favorites:", error);
-//     return [];
-//   }
-
-//   return data;
-// };

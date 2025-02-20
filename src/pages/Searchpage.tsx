@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
-import Searchbar from "@/components/Searchbar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getFavorites, searchMovies } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
@@ -49,32 +48,28 @@ function Searchpage() {
   };
 
   return (
-    <>
-      <Searchbar />
+    <div className="py-4">
+      {status == "loading" && <p>Loading...</p>}
+      {/* {status == "failed" && <p></p>} */}
 
-      <div className="py-4">
-        {status == "loading" && <p>Loading...</p>}
-        {/* {status == "failed" && <p></p>} */}
-
-        {status === "succeeded" && moviesWithFav.length > 0 && (
-          <>
-            <h1 className="text-2xl font-bold">Search Results: </h1>
-            <ScrollArea className="w-full whitespace-nowrap overflow-x-auto py-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {moviesWithFav.map((movie) => (
-                  <MovieCard
-                    movie={movie}
-                    handleAddToFavorties={handleAddToFavorties}
-                    handleRemoveFavorites={removeFromFavorites}
-                    key={movie.imdbID}
-                  />
-                ))}
-              </div>
-            </ScrollArea>
-          </>
-        )}
-      </div>
-    </>
+      {status === "succeeded" && moviesWithFav.length > 0 && (
+        <>
+          <h1 className="text-2xl font-bold">Search Results: </h1>
+          <ScrollArea className="w-full whitespace-nowrap overflow-x-auto py-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {moviesWithFav.map((movie) => (
+                <MovieCard
+                  movie={movie}
+                  handleAddToFavorties={handleAddToFavorties}
+                  handleRemoveFavorites={removeFromFavorites}
+                  key={movie.imdbID}
+                />
+              ))}
+            </div>
+          </ScrollArea>
+        </>
+      )}
+    </div>
   );
 }
 

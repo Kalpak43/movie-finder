@@ -62,3 +62,34 @@ export const getFavorites = createAsyncThunk(
     }
   }
 );
+
+export const getRecommendations = createAsyncThunk(
+  "movies/getRecommendations",
+  async (_, thunkAPI) => {
+    try {
+      const keywords = ["action", "comedy", "drama", "thriller", "horror"];
+      const randomKeyword =
+        keywords[Math.floor(Math.random() * keywords.length)];
+
+      const response = await axios.get(
+        `${BASE_URL}?s=${randomKeyword}&apikey=${API_KEY}`
+      );
+
+      if (response.status !== 200) {
+        return thunkAPI.rejectWithValue(response.statusText);
+      }
+
+      const { data } = response;
+
+      if (data.Error) return thunkAPI.rejectWithValue(data.Error);
+
+      return response.data.Search;
+    } catch (e) {
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      } else {
+        return thunkAPI.rejectWithValue("Some unknown error occured");
+      }
+    }
+  }
+);

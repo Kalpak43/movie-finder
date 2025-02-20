@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getFavorites, searchMovies } from "./movieThunk";
+import { getFavorites, getRecommendations, searchMovies } from "./movieThunk";
 
 interface MovieSliceType {
   movies: MovieType[];
   favorites: MovieType[];
+  recommendations: MovieType[];
   status: "idle" | "loading" | "failed" | "succeeded";
   error: unknown | null;
 }
@@ -11,6 +12,7 @@ interface MovieSliceType {
 const initialState: MovieSliceType = {
   movies: [],
   favorites: [],
+  recommendations: [],
   status: "idle",
   error: null,
 };
@@ -33,7 +35,12 @@ export const movieSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(getFavorites.fulfilled, (state, action) => {
-        (state.status = "succeeded"), (state.favorites = action.payload);
+        state.status = "succeeded";
+        state.favorites = action.payload;
+      })
+      .addCase(getRecommendations.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.recommendations = action.payload;
       });
   },
 });
