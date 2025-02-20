@@ -70,7 +70,7 @@ function LoginCard() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto shadow-lg">
+    <Card className="relative z-10 w-full max-w-md mx-auto shadow-lg">
       <CardHeader>
         <CardTitle className="text-xl text-center">Log in</CardTitle>
       </CardHeader>
@@ -107,7 +107,7 @@ function LoginCard() {
               <p className="text-red-500 text-xs">{errors.password}</p>
             )}
           </div>
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full bg-[#f6c700]" disabled={loading}>
             {loading ? <Loader2 className="animate-spin" /> : "Log in"}
           </Button>
         </form>

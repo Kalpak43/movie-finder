@@ -90,7 +90,7 @@ function SignupCard() {
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto shadow-lg">
+    <Card className="relative z-10 w-full max-w-md mx-auto shadow-lg">
       <CardHeader>
         <CardTitle className="text-center text-blue-600">Sign up</CardTitle>
       </CardHeader>
@@ -152,7 +152,7 @@ function SignupCard() {
             )}
           </div>
 
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full bg-[#f6c700]" disabled={loading}>
             {loading ? <Loader2 className="animate-spin" /> : "Sign Up"}
           </Button>
         </form>

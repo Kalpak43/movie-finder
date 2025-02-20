@@ -1,13 +1,13 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getFavorites } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import axios from "axios";
 import { Star } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
@@ -84,7 +84,7 @@ function MoviePage() {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 pb-4">
       <div className="space-y-2">
         <h1 className="text-3xl font-[500]">{movie.Title}</h1>
         <div className="flex max-md:flex-col  md:items-center justify-between py-1">
@@ -122,6 +122,21 @@ function MoviePage() {
             className="w-full h-full rounded-lg shadow-md object-cover"
           />
         </Card>
+        <Button
+          onClick={() => {
+            movie.fav
+              ? removeFromFavorites(movie)
+              : handleAddToFavorties(movie);
+          }}
+          className={`md:hidden w-full ${
+            movie.fav
+              ? "bg-[#f6c700]"
+              : "border-1 border-[#f6c700] bg-transparent text-primary hover:bg-[#f6c700]"
+          }`}
+        >
+          <Star />
+          {movie.fav ? "Remove From Favourites" : "Add to Favourites"}
+        </Button>
         <div className="md:col-span-2 xl:col-span-3 h-full">
           <Card className="h-full p-4 flex flex-col gap-4">
             <Table>
@@ -178,7 +193,7 @@ function MoviePage() {
         </div>
       </div>
 
-      <Card className="h-full p-4">
+      <Card className="h-full p-4 mt-4">
         <Table>
           <TableBody>
             <TableRow>
@@ -206,9 +221,9 @@ function MoviePage() {
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="font-[600]">Website</TableCell>
+              <TableCell className="font-[600]">Collection</TableCell>
               <TableCell className="text-[var(--highlight)]">
-                {movie.Website}
+                {movie.BoxOffice}
               </TableCell>
             </TableRow>
           </TableBody>

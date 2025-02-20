@@ -17,3 +17,14 @@ header {
   --search: #1a1a1a;
   --highlight: #d8c882;
 }
+
+.bg-1 {
+  background-image: url("/movie-bg.jpg");
+}
+
+.overlay-1 {
+  position: absolute;
+  inset: 0;
+  background-color: #00000080;
+  backdrop-filter: blur(5px);
+}
