@@ -1,19 +1,14 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
 import Searchbar from "@/components/Searchbar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getFavorites } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
 
 function Homepage() {
   const dispatch = useAppDispatch();
-  const { movies, favorites, status, error } = useAppSelector(
-    (state) => state.movies
-  );
+  const { movies, favorites, status } = useAppSelector((state) => state.movies);
   const { user } = useAppSelector((state) => state.auth);
 
   const [moviesWithFav, setMoviesWithFav] = useState<MovieType[]>(movies);

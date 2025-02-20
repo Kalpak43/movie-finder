@@ -39,14 +39,20 @@ export const getFavorites = createAsyncThunk(
       const { data, error } = await supabase
         .from("favorites")
         .select("*")
-        .eq("user_id", user_id);
+        .eq("user_id", user_id)
+        .order("created_at", { ascending: false });
 
       if (error) {
         console.error("Error fetching favorites:", error);
         return [];
       }
 
-      return data;
+      const favoritesWithMarked = data.map((item) => ({
+        ...item,
+        fav: true,
+      }));
+
+      return favoritesWithMarked;
     } catch (e) {
       if (e instanceof Error) {
         return thunkAPI.rejectWithValue(e.message);

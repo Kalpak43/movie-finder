@@ -11,14 +11,11 @@ import { checkSession } from "./features/auth/authThunk";
 import supabase from "./supabase";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { getFavorites } from "./features/movies/movieThunk";
+import Favoritepage from "./pages/Favoritepage";
 
 function App() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (user) dispatch(getFavorites(user.id));
-  }, [user]);
 
   // is there a better way to do this?
   useEffect(() => {
@@ -38,6 +35,10 @@ function App() {
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    if (user) dispatch(getFavorites(user.id));
+  }, [user]);
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -46,6 +47,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Homepage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <ProtectedRoute>
+              <Favoritepage />
             </ProtectedRoute>
           }
         />

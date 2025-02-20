@@ -21,9 +21,12 @@ function Header() {
       </Link>
       <nav className="flex items-center gap-8">
         {user ? (
-          <Button variant="ghost" onClick={handleSubmit}>
-            Sign out
-          </Button>
+          <>
+            <Link to="/favorites">Favorites</Link>
+            <Button variant="ghost" onClick={handleSubmit}>
+              Sign out
+            </Button>
+          </>
         ) : (
           <>
             <Link to={"/login"}>Log in</Link>
