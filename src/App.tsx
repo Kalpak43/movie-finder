@@ -13,6 +13,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { getFavorites } from "./features/movies/movieThunk";
 import Favoritepage from "./pages/Favoritepage";
 import Searchpage from "./pages/Searchpage";
+import ThemeToggler from "./components/ThemeToggler";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -41,37 +42,40 @@ function App() {
   }, [user]);
 
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route
-          index
-          element={
-            <ProtectedRoute>
-              <Homepage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <ProtectedRoute>
-              <Searchpage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/favorites"
-          element={
-            <ProtectedRoute>
-              <Favoritepage />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/movie/:movieId" element={<Moviepage />} />
-      </Route>
-      <Route path="/login" element={<Loginpage />} />
-      <Route path="/signup" element={<SignupPage />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route
+            index
+            element={
+              <ProtectedRoute>
+                <Homepage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <ProtectedRoute>
+                <Searchpage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/favorites"
+            element={
+              <ProtectedRoute>
+                <Favoritepage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/movie/:movieId" element={<Moviepage />} />
+        </Route>
+        <Route path="/login" element={<Loginpage />} />
+        <Route path="/signup" element={<SignupPage />} />
+      </Routes>
+      <ThemeToggler />
+    </>
   );
 }
 

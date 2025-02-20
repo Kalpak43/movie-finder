@@ -114,15 +114,15 @@ function MoviePage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        <Card className="w-full">
+      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
+        <Card className="w-full overflow-clip">
           <img
             src={movie.Poster}
             alt={movie.Title}
-            className="w-full rounded-lg shadow-md"
+            className="w-full h-full rounded-lg shadow-md object-cover"
           />
         </Card>
-        <div className="md:col-span-3 h-full">
+        <div className="md:col-span-2 xl:col-span-3 h-full">
           <Card className="h-full p-4 flex flex-col gap-4">
             <Table>
               <TableBody>
@@ -161,13 +161,13 @@ function MoviePage() {
                 return (
                   <div key={rating.Source} className="text-center">
                     {rating.Source == "Internet Movie Database" && (
-                      <FaImdb className="text-[#e2b616]" size={100} />
+                      <FaImdb className="text-[#e2b616] text-6xl xl:text-8xl" />
                     )}
                     {rating.Source == "Rotten Tomatoes" && (
-                      <SiRottentomatoes className="text-[#fa320a]" size={100} />
+                      <SiRottentomatoes className="text-[#fa320a] text-6xl xl:text-8xl" />
                     )}
                     {rating.Source == "Metacritic" && (
-                      <SiMetacritic className="text-[#00ce7a]" size={100} />
+                      <SiMetacritic className="text-[#00ce7a] text-6xl xl:text-8xl" />
                     )}
                     <p className="text-[var(--highlight)]">{rating.Value}</p>
                   </div>
