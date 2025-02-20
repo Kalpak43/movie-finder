@@ -8,10 +8,6 @@ import { Link } from "react-router";
 function Homepage() {
   const { movies, status, error } = useAppSelector((state) => state.movies);
 
-  useEffect(() => {
-    console.log(error);
-  }, [error]);
-
   return (
     <>
       <Searchbar />
