@@ -4,6 +4,7 @@ interface MovieType {
   Type: string;
   Year: string;
   imdbID: string;
+  fav?: boolean;
 }
 
 interface MovieDetailsType extends MovieType {

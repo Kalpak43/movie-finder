@@ -1,3 +1,4 @@
+import supabase from "@/supabase";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -20,8 +21,32 @@ export const searchMovies = createAsyncThunk(
 
       if (data.Error) return thunkAPI.rejectWithValue(data.Error);
 
-      console.log(data);
       return response.data.Search;
+    } catch (e) {
+      if (e instanceof Error) {
+        return thunkAPI.rejectWithValue(e.message);
+      } else {
+        return thunkAPI.rejectWithValue("Some unknown error occured");
+      }
+    }
+  }
+);
+
+export const getFavorites = createAsyncThunk(
+  "movies/getFavorites",
+  async (user_id: string, thunkAPI) => {
+    try {
+      const { data, error } = await supabase
+        .from("favorites")
+        .select("*")
+        .eq("user_id", user_id);
+
+      if (error) {
+        console.error("Error fetching favorites:", error);
+        return [];
+      }
+
+      return data;
     } catch (e) {
       if (e instanceof Error) {
         return thunkAPI.rejectWithValue(e.message);

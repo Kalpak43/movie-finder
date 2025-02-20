@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { searchMovies } from "./movieThunk";
+import { getFavorites, searchMovies } from "./movieThunk";
 
 interface MovieSliceType {
   movies: MovieType[];
+  favorites: MovieType[];
   status: "idle" | "loading" | "failed" | "succeeded";
   error: unknown | null;
 }
 
 const initialState: MovieSliceType = {
   movies: [],
+  favorites: [],
   status: "idle",
   error: null,
 };
@@ -29,6 +31,9 @@ export const movieSlice = createSlice({
       .addCase(searchMovies.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+      .addCase(getFavorites.fulfilled, (state, action) => {
+        (state.status = "succeeded"), (state.favorites = action.payload);
       });
   },
 });
