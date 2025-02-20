@@ -2,16 +2,24 @@ import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
 import Searchbar from "@/components/Searchbar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { getFavorites } from "@/features/movies/movieThunk";
+import { getFavorites, searchMovies } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
 
-function Homepage() {
+function Searchpage() {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("q") || "";
+
   const dispatch = useAppDispatch();
   const { movies, favorites, status } = useAppSelector((state) => state.movies);
   const { user } = useAppSelector((state) => state.auth);
 
   const [moviesWithFav, setMoviesWithFav] = useState<MovieType[]>(movies);
+
+  useEffect(() => {
+    if (query.trim() !== "") dispatch(searchMovies(query));
+  }, [query]);
 
   useEffect(() => {
     if (movies) {
@@ -44,11 +52,9 @@ function Homepage() {
     <>
       <Searchbar />
 
-      <div>Home Page</div>
-
-      {/* <div className="py-4">
+      <div className="py-4">
         {status == "loading" && <p>Loading...</p>}
-        {status == "failed" && <p></p>}
+        {/* {status == "failed" && <p></p>} */}
 
         {status === "succeeded" && moviesWithFav.length > 0 && (
           <>
@@ -67,9 +73,9 @@ function Homepage() {
             </ScrollArea>
           </>
         )}
-      </div> */}
+      </div>
     </>
   );
 }
 
-export default Homepage;
+export default Searchpage;

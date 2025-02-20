@@ -12,6 +12,7 @@ import supabase from "./supabase";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { getFavorites } from "./features/movies/movieThunk";
 import Favoritepage from "./pages/Favoritepage";
+import Searchpage from "./pages/Searchpage";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -47,6 +48,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Homepage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <ProtectedRoute>
+              <Searchpage />
             </ProtectedRoute>
           }
         />
