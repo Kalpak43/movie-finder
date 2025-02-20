@@ -45,22 +45,8 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route
-            index
-            element={
-              <ProtectedRoute>
-                <Homepage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/search"
-            element={
-              <ProtectedRoute>
-                <Searchpage />
-              </ProtectedRoute>
-            }
-          />
+          <Route index element={<Homepage />} />
+          <Route path="/search" element={<Searchpage />} />
           <Route
             path="/favorites"
             element={

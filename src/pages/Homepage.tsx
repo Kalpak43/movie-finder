@@ -4,8 +4,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { getFavorites, getRecommendations } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 function Homepage() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { recommendations, favorites, status } = useAppSelector(
     (state) => state.movies
@@ -31,6 +33,7 @@ function Homepage() {
   }, [recommendations, favorites]);
 
   const handleAddToFavorties = async (movie: MovieType) => {
+    if (!user) navigate("/login");
     const { error } = await addToFavorite(user?.id!, movie);
 
     if (error) console.error(error);

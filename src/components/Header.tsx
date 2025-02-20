@@ -8,7 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Menu, Search, X } from "lucide-react";
+import { EllipsisVertical, Menu, Search, X } from "lucide-react";
 import { useState } from "react";
 
 function Header() {
@@ -73,7 +73,7 @@ function Header() {
                   size={"icon"}
                   className="rounded-full"
                 >
-                  <Menu />
+                  <EllipsisVertical />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
