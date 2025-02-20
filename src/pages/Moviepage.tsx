@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getFavorites } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import axios from "axios";
-import { Star } from "lucide-react";
+import { Loader2, Star } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 
@@ -108,7 +108,11 @@ function MoviePage() {
   }, [favorites]);
 
   if (loading) {
-    return <Skeleton className="w-full h-96" />;
+    return (
+      <div className="min-h-[80dvh]] flex items-center justify-center">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
   }
 
   if (!movie) {

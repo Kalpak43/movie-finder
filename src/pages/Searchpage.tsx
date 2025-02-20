@@ -3,6 +3,7 @@ import MovieCard from "@/components/MovieCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getFavorites, searchMovies } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 
@@ -49,7 +50,11 @@ function Searchpage() {
 
   return (
     <div className="py-4">
-      {status == "loading" && <p>Loading...</p>}
+      {status == "loading" && (
+        <div className="min-h-[80dvh] flex items-center justify-center">
+          <Loader2 className="animate-spin" />
+        </div>
+      )}
       {/* {status == "failed" && <p></p>} */}
 
       {status === "succeeded" && moviesWithFav.length > 0 && (
