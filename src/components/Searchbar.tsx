@@ -16,7 +16,7 @@ function Searchbar() {
   }
 
   return (
-    <div>
+    <div className="search rounded-md ">
       <form className="relative mx-auto md:w-fit" onSubmit={handleSubmit}>
         <Input
           type="text"

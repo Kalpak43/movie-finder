@@ -1,0 +1,17 @@
+header {
+  background-color: var(--header);
+}
+
+.search {
+  background-color: var(--search);
+}
+
+:root {
+  --header: #fff;
+  --search: #eaeaea;
+}
+
+.dark {
+  --header: #000;
+  --search: #1a1a1a;
+}

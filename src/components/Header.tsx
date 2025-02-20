@@ -16,9 +16,9 @@ function Header() {
   };
 
   return (
-    <header className="flex items-center gap-8 justify-between border-b-1 py-4 px-8">
+    <header className="bg-black flex items-center gap-8 justify-between border-b-1 py-4 px-8 sticky top-0 z-50">
       <Link to={"/"}>
-        <h2 className="text-2xl font-bold">Movie Finder</h2>
+        <h2 className="text-2xl font-bold text-[#f6c700]">Movie Finder</h2>
       </Link>
       <Searchbar />
       <nav className="flex items-center gap-8">
