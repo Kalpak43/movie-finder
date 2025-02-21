@@ -7,18 +7,20 @@ import { addToFavorite, removeFavorite } from "@/lib/utils";
 import axios from "axios";
 import { Loader2, Star } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { Link, useLocation, useNavigate, useParams } from "react-router";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FaImdb } from "react-icons/fa6";
 import { SiMetacritic, SiRottentomatoes } from "react-icons/si";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { useToast } from "@/hooks/use-toast";
 
 const API_KEY = import.meta.env.VITE_OMDB_KEY;
 const BASE_URL = import.meta.env.VITE_OMDB_URL;
 
 function MoviePage() {
   const { movieId } = useParams();
+  const { toast } = useToast();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -126,12 +128,25 @@ function MoviePage() {
   }
 
   const handleAddToFavorties = async (movie: MovieType) => {
-    if (!user) navigate("/login", { state: { from: location } });
+    if (!user) {
+      navigate("/login", { state: { from: location } });
+      return;
+    }
     const { error } = await addToFavorite(user?.id!, movie);
 
     if (error) console.error(error);
 
-    dispatch(getFavorites(user?.id!));
+    await dispatch(getFavorites(user?.id!));
+
+    toast({
+      title: "Movie added to favorites",
+      variant: "success",
+      action: (
+        <Button variant={"ghost"} className="hover:bg-green-700">
+          <Link to="/favorites">Go to Favorites</Link>
+        </Button>
+      ),
+    });
   };
 
   const removeFromFavorites = async (movie: MovieType) => {
@@ -139,7 +154,12 @@ function MoviePage() {
 
     if (error) console.error(error);
 
-    dispatch(getFavorites(user?.id!));
+    await dispatch(getFavorites(user?.id!));
+
+    toast({
+      title: "Movie removed from favorites",
+      variant: "destructive",
+    });
   };
 
   return (

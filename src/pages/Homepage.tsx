@@ -1,14 +1,17 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
+import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getFavorites } from "@/features/movies/movieThunk";
+import { useToast } from "@/hooks/use-toast";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 function Homepage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { toast } = useToast();
   const { recommendations, favorites, status } = useAppSelector(
     (state) => state.movies
   );
@@ -29,12 +32,25 @@ function Homepage() {
   }, [recommendations, favorites]);
 
   const handleAddToFavorties = async (movie: MovieType) => {
-    if (!user) navigate("/login");
+    if (!user) {
+      navigate("/login");
+      return;
+    }
     const { error } = await addToFavorite(user?.id!, movie);
 
     if (error) console.error(error);
 
-    dispatch(getFavorites(user?.id!));
+    await dispatch(getFavorites(user?.id!));
+
+    toast({
+      title: "Movie added to favorites",
+      variant: "success",
+      action: (
+        <Button variant={"ghost"} className="hover:bg-green-700">
+          <Link to="/favorites">Go to Favorites</Link>
+        </Button>
+      ),
+    });
   };
 
   const removeFromFavorites = async (movie: MovieType) => {
@@ -42,7 +58,12 @@ function Homepage() {
 
     if (error) console.error(error);
 
-    dispatch(getFavorites(user?.id!));
+    await dispatch(getFavorites(user?.id!));
+
+    toast({
+      title: "Movie removed from favorites",
+      variant: "destructive",
+    });
   };
 
   return (

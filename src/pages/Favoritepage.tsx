@@ -1,11 +1,15 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
+import { Button } from "@/components/ui/button";
 import { getFavorites } from "@/features/movies/movieThunk";
+import { useToast } from "@/hooks/use-toast";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import { useEffect } from "react";
+import { Link } from "react-router";
 
 function Favoritepage() {
   const dispatch = useAppDispatch();
+  const { toast } = useToast();
   const { user } = useAppSelector((state) => state.auth);
   const { favorites } = useAppSelector((state) => state.movies);
 
@@ -18,7 +22,17 @@ function Favoritepage() {
 
     if (error) console.error(error);
 
-    dispatch(getFavorites(user?.id!));
+    await dispatch(getFavorites(user?.id!));
+
+    toast({
+      title: "Movie added to favorites",
+      variant: "success",
+      action: (
+        <Button variant={"ghost"} className="hover:bg-green-700">
+          <Link to="/favorites">Go to Favorites</Link>
+        </Button>
+      ),
+    });
   };
 
   const removeFromFavorites = async (movie: MovieType) => {
@@ -26,7 +40,12 @@ function Favoritepage() {
 
     if (error) console.error(error);
 
-    dispatch(getFavorites(user?.id!));
+    await dispatch(getFavorites(user?.id!));
+
+    toast({
+      title: "Movie removed from favorites",
+      variant: "destructive",
+    });
   };
 
   return (

@@ -15,8 +15,10 @@ import Favoritepage from "./pages/Favoritepage";
 import Searchpage from "./pages/Searchpage";
 import ThemeToggler from "./components/ThemeToggler";
 import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "./hooks/use-toast";
 
 function App() {
+  const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
@@ -37,6 +39,14 @@ function App() {
       subscription.unsubscribe();
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (user)
+      toast({
+        title: "Logged in successfully",
+        variant: "success",
+      });
+  }, [user]);
 
   useEffect(() => {
     dispatch(getRecommendations());

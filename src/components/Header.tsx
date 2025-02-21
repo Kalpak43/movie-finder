@@ -10,15 +10,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical, Search, X } from "lucide-react";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 function Header() {
+  const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
   const [open, setOpen] = useState(false);
 
-  const handleSignout = () => {
-    dispatch(signOut());
+  const handleSignout = async () => {
+    await dispatch(signOut());
+    toast({
+      title: "Logged out successfully",
+      variant: "destructive",
+    });
   };
 
   return (

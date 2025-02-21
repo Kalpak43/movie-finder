@@ -36,7 +36,6 @@ function LoginCard() {
 
   useEffect(() => {
     const from = location.state?.from || "/";
-    console.log(from);
     if (user) {
       navigate(from, { replace: true });
     }

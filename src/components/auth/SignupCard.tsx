@@ -25,7 +25,7 @@ function SignupCard() {
   const dispatch = useAppDispatch();
 
   const { toast } = useToast();
-  const { user, error, loading } = useAppSelector((state) => state.auth);
+  const { error, loading } = useAppSelector((state) => state.auth);
 
   const [formData, setFormData] = useState<FormData>({
     email: "",
@@ -33,10 +33,6 @@ function SignupCard() {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
-
-  // useEffect(() => {
-  //   if (user) navigate("/");
-  // }, [user]);
 
   useEffect(() => {
     console.log(error);
@@ -91,8 +87,9 @@ function SignupCard() {
       await dispatch(signUp(formData));
       toast({
         title: "Sign up successful",
-        description: "A verification mail has been sent. Please verify before login."
-      })
+        description:
+          "A verification mail has been sent. Please verify before login.",
+      });
       navigate("/login");
     }
   };
