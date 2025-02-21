@@ -39,7 +39,6 @@ export const movieSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(getFavorites.fulfilled, (state, action) => {
-        state.status = "succeeded";
         state.favorites = action.payload;
       })
       .addCase(getRecommendations.fulfilled, (state, action) => {
