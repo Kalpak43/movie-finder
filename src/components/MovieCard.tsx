@@ -62,9 +62,9 @@ function MovieCard({
 
         <ButtonLink
           to={`/movie/${movie.imdbID}`}
-          className="w-full bg-[#f6c700] flex justify-center items-end gap-2"
+          className="w-full bg-[#f6c700] flex justify-center items-center gap-2"
         >
-          <span className="block">Learn More</span> <ArrowRight />
+          <span className="block mt-1">Learn More</span> <ArrowRight className="mt-1" />
         </ButtonLink>
       </CardContent>
     </Card>

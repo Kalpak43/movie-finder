@@ -37,6 +37,7 @@ export const signInWithGoogle = createAsyncThunk(
     if (error) throw error;
   }
 );
+
 export const signInWithFacebook = createAsyncThunk(
   "auth/signInWithFacebook",
   async () => {
