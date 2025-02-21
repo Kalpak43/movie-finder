@@ -11,6 +11,7 @@ import {
   signInWithGoogle,
 } from "@/features/auth/authThunk";
 import { FaFacebookF, FaGoogle } from "react-icons/fa6";
+import { useToast } from "@/hooks/use-toast";
 
 interface FormData {
   email: string;
@@ -23,6 +24,7 @@ interface FormErrors {
 }
 
 function LoginCard() {
+  const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
@@ -33,6 +35,14 @@ function LoginCard() {
     password: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
+
+  useEffect(() => {
+    if (user)
+      toast({
+        title: "Logged in successfully",
+        variant: "success",
+      });
+  }, [user]);
 
   useEffect(() => {
     const from = location.state?.from || "/";

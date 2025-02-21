@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useLocation } from "react-router";
 import Layout from "./Layout";
 import Homepage from "./pages/Homepage";
 import Moviepage from "./pages/Moviepage";
@@ -20,6 +20,7 @@ import { useToast } from "./hooks/use-toast";
 function App() {
   const { toast } = useToast();
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const { user } = useAppSelector((state) => state.auth);
 
   // is there a better way to do this?
@@ -40,13 +41,13 @@ function App() {
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    if (user)
-      toast({
-        title: "Logged in successfully",
-        variant: "success",
-      });
-  }, [user]);
+  // useEffect(() => {
+  //   if (user)
+  //     toast({
+  //       title: "Logged in successfully",
+  //       variant: "success",
+  //     });
+  // }, [user]);
 
   useEffect(() => {
     dispatch(getRecommendations());
