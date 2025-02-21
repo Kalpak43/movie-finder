@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Loader2 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import {
@@ -24,6 +24,7 @@ interface FormErrors {
 
 function LoginCard() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const { user, error, loading } = useAppSelector((state) => state.auth);
 
@@ -34,7 +35,11 @@ function LoginCard() {
   const [errors, setErrors] = useState<FormErrors>({});
 
   useEffect(() => {
-    if (user) navigate("/");
+    const from = location.state?.from || "/";
+    console.log(from);
+    if (user) {
+      navigate(from, { replace: true });
+    }
   }, [user]);
 
   useEffect(() => {

@@ -28,10 +28,6 @@ function Homepage() {
     }
   }, [recommendations, favorites]);
 
-  useEffect(() => {
-    console.log("MOVIES: ", moviesWithFav);
-  }, [moviesWithFav]);
-
   const handleAddToFavorties = async (movie: MovieType) => {
     if (!user) navigate("/login");
     const { error } = await addToFavorite(user?.id!, movie);

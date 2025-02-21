@@ -7,7 +7,7 @@ import { addToFavorite, removeFavorite } from "@/lib/utils";
 import axios from "axios";
 import { Loader2, Star } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FaImdb } from "react-icons/fa6";
@@ -19,7 +19,10 @@ const BASE_URL = import.meta.env.VITE_OMDB_URL;
 
 function MoviePage() {
   const { movieId } = useParams();
+
   const navigate = useNavigate();
+  const location = useLocation();
+
   const dispatch = useAppDispatch();
   const { favorites } = useAppSelector((state) => state.movies);
   const { user } = useAppSelector((state) => state.auth);
@@ -123,7 +126,7 @@ function MoviePage() {
   }
 
   const handleAddToFavorties = async (movie: MovieType) => {
-    if (!user) navigate("/login");
+    if (!user) navigate("/login", { state: { from: location } });
     const { error } = await addToFavorite(user?.id!, movie);
 
     if (error) console.error(error);

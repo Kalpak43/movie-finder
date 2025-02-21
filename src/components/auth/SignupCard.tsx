@@ -6,6 +6,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
 import { signUp } from "@/features/auth/authThunk";
+import { useToast } from "@/hooks/use-toast";
 
 interface FormData {
   email: string;
@@ -22,6 +23,8 @@ interface FormErrors {
 function SignupCard() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+
+  const { toast } = useToast();
   const { user, error, loading } = useAppSelector((state) => state.auth);
 
   const [formData, setFormData] = useState<FormData>({
@@ -31,9 +34,9 @@ function SignupCard() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
 
-  useEffect(() => {
-    if (user) navigate("/");
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) navigate("/");
+  // }, [user]);
 
   useEffect(() => {
     console.log(error);
@@ -85,7 +88,12 @@ function SignupCard() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      dispatch(signUp(formData));
+      await dispatch(signUp(formData));
+      toast({
+        title: "Sign up successful",
+        description: "A verification mail has been sent. Please verify before login."
+      })
+      navigate("/login");
     }
   };
 
@@ -152,7 +160,11 @@ function SignupCard() {
             )}
           </div>
 
-          <Button type="submit" className="w-full bg-[#f6c700]" disabled={loading}>
+          <Button
+            type="submit"
+            className="w-full bg-[#f6c700]"
+            disabled={loading}
+          >
             {loading ? <Loader2 className="animate-spin" /> : "Sign Up"}
           </Button>
         </form>

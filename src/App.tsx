@@ -14,6 +14,7 @@ import { getFavorites, getRecommendations } from "./features/movies/movieThunk";
 import Favoritepage from "./pages/Favoritepage";
 import Searchpage from "./pages/Searchpage";
 import ThemeToggler from "./components/ThemeToggler";
+import { Toaster } from "@/components/ui/toaster";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -65,6 +66,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
       </Routes>
       <ThemeToggler />
+      <Toaster />
     </>
   );
 }
