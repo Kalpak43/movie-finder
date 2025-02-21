@@ -1,13 +1,15 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { getFavorites } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import axios from "axios";
 import { Loader2, Star } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { Link, useLocation, useNavigate, useParams } from "react-router";
+
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { FaImdb } from "react-icons/fa6";
@@ -35,6 +37,8 @@ function MoviePage() {
   const { theme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [dominantColor, setDominantColor] = useState<string>("#000000");
+  const [whereToWatch, setWhereToWatch] = useState<any>(null);
+  const [loadingWatch, setLoadingWatch] = useState(false);
 
   useEffect(() => {
     if (movie) {
@@ -100,6 +104,24 @@ function MoviePage() {
         console.error(e);
         setLoading(false);
       });
+  }, [movieId]);
+
+  useEffect(() => {
+    if (movieId?.trim() != "") {
+      setLoadingWatch(true);
+      axios
+        .get(
+          `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=362594fd6ba4d449d0bb695b52fb5cad`
+        )
+        .then((res) => {
+          setLoadingWatch(false);
+          setWhereToWatch(res.data.results["IN"]);
+        })
+        .catch((e) => {
+          setLoadingWatch(false);
+          console.error(e);
+        });
+    }
   }, [movieId]);
 
   useEffect(() => {
@@ -327,6 +349,77 @@ function MoviePage() {
           </TableBody>
         </Table>
       </Card>
+      <Card className="h-full p-4 mt-4 space-y-4">
+        <CardTitle>
+          <h3 className="text-xl">Where to watch</h3>
+        </CardTitle>
+        <CardContent className="p-0">
+          {!loadingWatch ? (
+            whereToWatch ? (
+              <>
+                <Tabs defaultValue="subscription" className="w-full">
+                  <TabsList className="grid w-full grid-cols-3">
+                    {whereToWatch.flatrate && (
+                      <TabsTrigger value="subscription">
+                        Subscription
+                      </TabsTrigger>
+                    )}
+                    {whereToWatch.rent && (
+                      <TabsTrigger value="rent">Rent</TabsTrigger>
+                    )}
+                    {whereToWatch.buy && (
+                      <TabsTrigger value="buy">Buy</TabsTrigger>
+                    )}
+                  </TabsList>
+
+                  {/* Subscription */}
+                  {whereToWatch.flatrate && (
+                    <TabsContent value="subscription">
+                      <ProviderList providers={whereToWatch.flatrate} />
+                    </TabsContent>
+                  )}
+
+                  {/* Rent */}
+                  {whereToWatch.rent && (
+                    <TabsContent value="rent">
+                      <ProviderList providers={whereToWatch.rent} />
+                    </TabsContent>
+                  )}
+
+                  {/* Buy */}
+                  {whereToWatch.buy && (
+                    <TabsContent value="buy">
+                      <ProviderList providers={whereToWatch.buy} />
+                    </TabsContent>
+                  )}
+                </Tabs>
+                {whereToWatch && (
+                  <p className="text-xs mt-4 text-muted-foreground">
+                    Data made available from{" "}
+                    <Link
+                      to={whereToWatch.link}
+                      className="underline"
+                      target="__blank"
+                    >
+                      TMDB API
+                    </Link>
+                  </p>
+                )}
+              </>
+            ) : (
+              <div className="flex items-center justify-center h-[100px]">
+                <p className="text-center text-[var(--highlight)]">
+                  No Services found
+                </p>
+              </div>
+            )
+          ) : (
+            <div className="flex items-center justify-center h-[100px]">
+              <Loader2 className="animate-spin" />
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
@@ -355,3 +448,21 @@ function getDominantColor(imageData: Uint8ClampedArray, theme: string): string {
 
   return `rgb(${r},${g},${b}, 0.5)`;
 }
+
+const ProviderList = ({ providers }: { providers: any }) => (
+  <ul className="flex max-md:flex-col items-center gap-4 py-4 px-2">
+    {providers.map((provider: any) => (
+      <li
+        key={provider.provider_id}
+        className="flex flex-col items-center gap-2 text-center"
+      >
+        <img
+          src={`https://image.tmdb.org/t/p/w92${provider.logo_path}`}
+          alt={provider.provider_name}
+          className="w-16 h-16 rounded-md border-1 border-[var(--muted-foreground)] shadow"
+        />
+        <p className="text-sm">{provider.provider_name}</p>
+      </li>
+    ))}
+  </ul>
+);
