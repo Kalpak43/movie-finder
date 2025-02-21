@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getFavorites, getRecommendations, searchMovies } from "./movieThunk";
+import { signOut } from "../auth/authThunk";
 
 interface MovieSliceType {
   movies: MovieType[];
@@ -41,6 +42,10 @@ export const movieSlice = createSlice({
       .addCase(getRecommendations.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.recommendations = action.payload;
+      })
+      .addCase(signOut.fulfilled, (state) => {
+        state.favorites = [];
+        state.status = "succeeded";
       });
   },
 });

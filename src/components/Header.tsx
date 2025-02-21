@@ -8,7 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EllipsisVertical, Menu, Search, X } from "lucide-react";
+import { EllipsisVertical, Search, X } from "lucide-react";
 import { useState } from "react";
 
 function Header() {
@@ -17,7 +17,7 @@ function Header() {
 
   const [open, setOpen] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSignout = () => {
     dispatch(signOut());
   };
 
@@ -57,7 +57,7 @@ function Header() {
                 <Button
                   className="w-full text-red-500"
                   variant="ghost"
-                  onClick={handleSubmit}
+                  onClick={handleSignout}
                 >
                   Sign out
                 </Button>

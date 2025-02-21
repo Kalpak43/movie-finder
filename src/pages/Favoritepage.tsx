@@ -30,15 +30,18 @@ function Favoritepage() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      {favorites.map((fav) => (
-        <MovieCard
-          key={fav.imdbID}
-          movie={fav}
-          handleAddToFavorties={handleAddToFavorties}
-          handleRemoveFavorites={removeFromFavorites}
-        />
-      ))}
+    <div className="space-y-4">
+      <h1 className="text-2xl font-bold">Your Favorites: </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {favorites.map((fav) => (
+          <MovieCard
+            key={fav.imdbID}
+            movie={fav}
+            handleAddToFavorties={handleAddToFavorties}
+            handleRemoveFavorites={removeFromFavorites}
+          />
+        ))}
+      </div>
     </div>
   );
 }

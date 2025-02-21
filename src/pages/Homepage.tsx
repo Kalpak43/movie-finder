@@ -18,10 +18,6 @@ function Homepage() {
     useState<MovieType[]>(recommendations);
 
   useEffect(() => {
-    dispatch(getRecommendations());
-  }, []);
-
-  useEffect(() => {
     if (recommendations) {
       const updatedMovies = recommendations.map((movie) => {
         const isFavorite = favorites.some((fav) => fav.imdbID === movie.imdbID);
@@ -31,6 +27,10 @@ function Homepage() {
       setMoviesWithFav(updatedMovies);
     }
   }, [recommendations, favorites]);
+
+  useEffect(() => {
+    console.log("MOVIES: ", moviesWithFav);
+  }, [moviesWithFav]);
 
   const handleAddToFavorties = async (movie: MovieType) => {
     if (!user) navigate("/login");
@@ -61,10 +61,10 @@ function Homepage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {moviesWithFav.map((movie) => (
                 <MovieCard
+                  key={movie.imdbID}
                   movie={movie}
                   handleAddToFavorties={handleAddToFavorties}
                   handleRemoveFavorites={removeFromFavorites}
-                  key={movie.imdbID}
                 />
               ))}
             </div>

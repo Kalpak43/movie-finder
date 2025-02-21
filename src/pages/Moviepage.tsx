@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { getFavorites } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import axios from "axios";
@@ -44,18 +43,19 @@ function MoviePage() {
         if (ctx) {
           ctx.drawImage(img, 0, 0, img.width, img.height);
           const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-          const color = getDominantColor(imageData.data);
+          const color = getDominantColor(imageData.data, theme);
           setDominantColor(color);
         }
       };
     }
-  }, [movie]);
+  }, [movie, theme]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (canvas && theme == "dark") {
+    if (canvas) {
       const ctx = canvas.getContext("2d");
       if (ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         const gradient = ctx.createRadialGradient(
           canvas.width / 2,
           canvas.height / 2,
@@ -65,7 +65,11 @@ function MoviePage() {
           canvas.width / 2
         );
         gradient.addColorStop(0, dominantColor);
-        gradient.addColorStop(1, "rgba(0,0,0,0)");
+        if (theme == "dark") {
+          gradient.addColorStop(1, "rgba(0,0,0,0)");
+        } else {
+          gradient.addColorStop(1, "rgb(255, 255, 255)");
+        }
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.filter = "blur(50px)";
@@ -85,8 +89,6 @@ function MoviePage() {
         );
         setMovie({ ...movieData, fav: isFavorite });
         setLoading(false);
-
-        console.log(movieData);
       })
       .catch((e) => {
         console.error(e);
@@ -234,22 +236,28 @@ function MoviePage() {
               </TableBody>
             </Table>
             <div className="flex max-md:flex-col justify-center items-center gap-8 flex-wrap flex-1">
-              {movie.Ratings.map((rating) => {
-                return (
-                  <div key={rating.Source} className="text-center">
-                    {rating.Source == "Internet Movie Database" && (
-                      <FaImdb className="text-[#e2b616] text-6xl xl:text-8xl" />
-                    )}
-                    {rating.Source == "Rotten Tomatoes" && (
-                      <SiRottentomatoes className="text-[#fa320a] text-6xl xl:text-8xl" />
-                    )}
-                    {rating.Source == "Metacritic" && (
-                      <SiMetacritic className="text-[#00ce7a] text-6xl xl:text-8xl" />
-                    )}
-                    <p className="text-[var(--highlight)]">{rating.Value}</p>
-                  </div>
-                );
-              })}
+              {movie.Ratings.length > 0 ? (
+                movie.Ratings.map((rating) => {
+                  return (
+                    <div key={rating.Source} className="text-center">
+                      {rating.Source == "Internet Movie Database" && (
+                        <FaImdb className="text-[#e2b616] text-6xl xl:text-8xl" />
+                      )}
+                      {rating.Source == "Rotten Tomatoes" && (
+                        <SiRottentomatoes className="text-[#fa320a] text-6xl xl:text-8xl" />
+                      )}
+                      {rating.Source == "Metacritic" && (
+                        <SiMetacritic className="text-[#00ce7a] text-6xl xl:text-8xl" />
+                      )}
+                      <p className="text-[var(--highlight)]">{rating.Value}</p>
+                    </div>
+                  );
+                })
+              ) : (
+                <h3 className="text-xl font-[600] text-[var(--highlight)]">
+                  No Ratings Available
+                </h3>
+              )}
             </div>
           </Card>
         </div>
@@ -297,7 +305,7 @@ function MoviePage() {
 
 export default MoviePage;
 
-function getDominantColor(imageData: Uint8ClampedArray): string {
+function getDominantColor(imageData: Uint8ClampedArray, theme: string): string {
   let r = 0,
     g = 0,
     b = 0;
@@ -313,5 +321,9 @@ function getDominantColor(imageData: Uint8ClampedArray): string {
   g = Math.floor(g / pixelCount);
   b = Math.floor(b / pixelCount);
 
-  return `rgb(${r},${g},${b})`;
+  if (theme === "light") {
+    return `rgba(${r},${g},${b}, 0)`;
+  }
+
+  return `rgb(${r},${g},${b}, 0.5)`;
 }
