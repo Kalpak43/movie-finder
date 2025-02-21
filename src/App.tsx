@@ -60,14 +60,9 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Homepage />} />
           <Route path="/search" element={<Searchpage />} />
-          <Route
-            path="/favorites"
-            element={
-              <ProtectedRoute>
-                <Favoritepage />
-              </ProtectedRoute>
-            }
-          />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/favorites" element={<Favoritepage />} />
+          </Route>
           <Route path="/movie/:movieId" element={<Moviepage />} />
         </Route>
         <Route path="/login" element={<Loginpage />} />

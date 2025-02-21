@@ -1,27 +1,20 @@
 import { useAppSelector } from "@/app/hook";
-import { Navigate, useLocation } from "react-router";
+import { Navigate, Outlet, useLocation } from "react-router";
 
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-}
-
-const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
+// ProtectedRoute component for pages that require authentication
+const ProtectedRoute = () => {
   const { user, loading } = useAppSelector((state) => state.auth);
   const location = useLocation();
 
-  if (loading) return <p>Loading...</p>;
-
-  if (!user) {
-    return (
-      <Navigate
-        to="/login"
-        replace
-        state={{ from: location?.state?.from || "/" }}
-      />
-    );
+  if (loading) {
+    return <div>Loading...</div>; // Or a spinner
   }
 
-  return <>{children}</>;
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

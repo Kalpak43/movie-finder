@@ -1,5 +1,5 @@
 import { Button } from "./ui/button";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import { signOut } from "@/features/auth/authThunk";
 import Searchbar from "./Searchbar";
@@ -21,6 +21,8 @@ import {
 
 function Header() {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
@@ -32,6 +34,10 @@ function Header() {
       title: "Logged out successfully",
       variant: "destructive",
     });
+  };
+
+  const onClickNavigate = async (path: string) => {
+    navigate(path, { state: { from: location } });
   };
 
   return (
@@ -118,12 +124,20 @@ function Header() {
                 </TooltipProvider>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <ButtonLink to={"/login"} className="w-full" variant="ghost">
+                <Button
+                  onClick={() => onClickNavigate("/login")}
+                  className="w-full"
+                  variant="ghost"
+                >
                   Log in
-                </ButtonLink>
-                <ButtonLink to={"/signup"} className="w-full" variant="ghost">
+                </Button>
+                <Button
+                  onClick={() => onClickNavigate("/signup")}
+                  className="w-full"
+                  variant="ghost"
+                >
                   Sign up
-                </ButtonLink>
+                </Button>
               </DropdownMenuContent>
             </DropdownMenu>
           </>

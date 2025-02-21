@@ -45,11 +45,11 @@ function LoginCard() {
   }, [user]);
 
   useEffect(() => {
-    const from = location.state?.from || "/";
     if (user) {
+      const from = location.state?.from || "/";
       navigate(from, { replace: true });
     }
-  }, [user]);
+  }, [user, location]);
 
   useEffect(() => {
     console.log(error);
@@ -84,7 +84,7 @@ function LoginCard() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      dispatch(signIn(formData));
+      await dispatch(signIn(formData));
     }
   };
 
