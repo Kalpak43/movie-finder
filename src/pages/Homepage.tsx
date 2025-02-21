@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { getFavorites } from "@/features/movies/movieThunk";
 import { useToast } from "@/hooks/use-toast";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
@@ -72,7 +73,11 @@ function Homepage() {
 
   return (
     <div className="py-4">
-      {status == "loading" && <p>Loading...</p>}
+      {status == "loading" && (
+        <div className="min-h-[80dvh] flex items-center justify-center">
+          <Loader2 className="animate-spin" />
+        </div>
+      )}
       {status == "failed" && <p></p>}
 
       {status === "succeeded" && moviesWithFav.length > 0 && (

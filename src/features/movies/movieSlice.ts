@@ -24,6 +24,9 @@ export const movieSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
+      .addCase(getRecommendations.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(searchMovies.pending, (state) => {
         state.status = "loading";
       })
