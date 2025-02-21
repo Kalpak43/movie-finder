@@ -12,6 +12,12 @@ import { EllipsisVertical, Search, X } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ButtonLink } from "./ui/ButtonLink";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 function Header() {
   const { toast } = useToast();
@@ -35,13 +41,23 @@ function Header() {
       </Link>
 
       <nav className="flex items-center gap-4">
-        <Button
-          className="md:hidden"
-          variant={"ghost"}
-          onClick={() => setOpen((x) => !x)}
-        >
-          {open ? <X /> : <Search />}
-        </Button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                className="md:hidden"
+                variant={"ghost"}
+                onClick={() => setOpen((x) => !x)}
+              >
+                {open ? <X /> : <Search />}
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Search a movie</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
         <div className="max-md:hidden">
           <Searchbar />
         </div>
@@ -49,13 +65,22 @@ function Header() {
           <>
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <Button
-                  variant={"outline"}
-                  size={"icon"}
-                  className="rounded-full bg-[var(--highlight)] text-black"
-                >
-                  {user.email?.slice(0, 1).toUpperCase()}
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        size={"icon"}
+                        className="rounded-full bg-[var(--highlight)] text-black"
+                      >
+                        {user.email?.slice(0, 1).toUpperCase()}
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>View your options</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <ButtonLink to="/favorites" className="w-full" variant="ghost">
@@ -75,13 +100,22 @@ function Header() {
           <>
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <Button
-                  variant={"outline"}
-                  size={"icon"}
-                  className="rounded-full"
-                >
-                  <EllipsisVertical />
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant={"outline"}
+                        size={"icon"}
+                        className="rounded-full"
+                      >
+                        <EllipsisVertical />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>More options</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <ButtonLink to={"/login"} className="w-full" variant="ghost">

@@ -1,6 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Star } from "lucide-react";
 import { ButtonLink } from "./ui/ButtonLink";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./ui/tooltip";
 
 function MovieCard({
   movie,
@@ -27,23 +33,32 @@ function MovieCard({
             {movie.Year} • {movie.Type}
           </p>
         </div>
-        <button
-          onClick={() => {
-            movie.fav
-              ? handleRemoveFavorites(movie)
-              : handleAddToFavorties(movie);
-          }}
-          className={`cursor-pointer absolute top-0 right-0 m-4 rounded-full transition-all duration-300 ${
-            movie.fav ? "hover:bg-secondary" : "hover:bg-[#f6c700]"
-          }`}
-        >
-          <Star
-            fill={movie.fav ? "#f6c700" : ""}
-            size={24}
-            className="text-[#f6c700]"
-          />
-          {/* {movie.fav ? "Remove From Favourites" : "Add to Favourites"} */}
-        </button>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={() => {
+                  movie.fav
+                    ? handleRemoveFavorites(movie)
+                    : handleAddToFavorties(movie);
+                }}
+                className={`cursor-pointer absolute top-0 right-0 m-4 rounded-full transition-all duration-300 ${
+                  movie.fav ? "hover:bg-secondary" : "hover:bg-[#f6c700]"
+                }`}
+              >
+                <Star
+                  fill={movie.fav ? "#f6c700" : ""}
+                  size={24}
+                  className="text-[#f6c700]"
+                />
+                {/* {movie.fav ? "Remove From Favourites" : "Add to Favourites"} */}
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{movie.fav ? "Remove from favorites" : "Add to favorites"}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <ButtonLink
           to={`/movie/${movie.imdbID}`}
