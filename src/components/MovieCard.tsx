@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router";
 import { ArrowRight, Star } from "lucide-react";
+import { ButtonLink } from "./ui/ButtonLink";
 
 function MovieCard({
   movie,
@@ -34,7 +33,9 @@ function MovieCard({
               ? handleRemoveFavorites(movie)
               : handleAddToFavorties(movie);
           }}
-          className={`cursor-pointer absolute top-0 right-0 m-4 rounded-full transition-all duration-300 ${movie.fav ? "hover:bg-secondary" : "hover:bg-[#f6c700]"}`}
+          className={`cursor-pointer absolute top-0 right-0 m-4 rounded-full transition-all duration-300 ${
+            movie.fav ? "hover:bg-secondary" : "hover:bg-[#f6c700]"
+          }`}
         >
           <Star
             fill={movie.fav ? "#f6c700" : ""}
@@ -43,14 +44,13 @@ function MovieCard({
           />
           {/* {movie.fav ? "Remove From Favourites" : "Add to Favourites"} */}
         </button>
-        <Button className="w-full bg-[#f6c700]">
-          <Link
-            to={`/movie/${movie.imdbID}`}
-            className="w-full justify-center flex items-end gap-2"
-          >
-            <span className="block">Learn More</span> <ArrowRight />
-          </Link>
-        </Button>
+
+        <ButtonLink
+          to={`/movie/${movie.imdbID}`}
+          className="w-full bg-[#f6c700] flex justify-center items-end gap-2"
+        >
+          <span className="block">Learn More</span> <ArrowRight />
+        </ButtonLink>
       </CardContent>
     </Card>
   );

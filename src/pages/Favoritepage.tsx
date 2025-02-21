@@ -1,11 +1,10 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { getFavorites } from "@/features/movies/movieThunk";
 import { useToast } from "@/hooks/use-toast";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import { useEffect } from "react";
-import { Link } from "react-router";
 
 function Favoritepage() {
   const dispatch = useAppDispatch();
@@ -28,9 +27,13 @@ function Favoritepage() {
       title: "Movie added to favorites",
       variant: "success",
       action: (
-        <Button variant={"ghost"} className="hover:bg-green-700">
-          <Link to="/favorites">Go to Favorites</Link>
-        </Button>
+        <ButtonLink
+          to="/favorites"
+          className="bg-green-600 hover:bg-green-700"
+          variant="outline"
+        >
+          Go to Favorites
+        </ButtonLink>
       ),
     });
   };

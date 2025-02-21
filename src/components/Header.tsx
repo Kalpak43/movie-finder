@@ -11,6 +11,7 @@ import {
 import { EllipsisVertical, Search, X } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { ButtonLink } from "./ui/ButtonLink";
 
 function Header() {
   const { toast } = useToast();
@@ -57,9 +58,9 @@ function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <Button className="w-full" variant="ghost">
-                  <Link to="/favorites">Favorites</Link>
-                </Button>
+                <ButtonLink to="/favorites" className="w-full" variant="ghost">
+                  Favorites
+                </ButtonLink>
                 <Button
                   className="w-full text-red-500"
                   variant="ghost"
@@ -83,12 +84,12 @@ function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <Button className="w-full" variant="ghost">
-                  <Link to={"/login"}>Log in</Link>
-                </Button>
-                <Button className="w-full" variant="ghost">
-                  <Link to={"/signup"}>Sign up</Link>
-                </Button>
+                <ButtonLink to={"/login"} className="w-full" variant="ghost">
+                  Log in
+                </ButtonLink>
+                <ButtonLink to={"/signup"} className="w-full" variant="ghost">
+                  Sign up
+                </ButtonLink>
               </DropdownMenuContent>
             </DropdownMenu>
           </>

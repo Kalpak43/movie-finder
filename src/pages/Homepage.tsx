@@ -1,12 +1,12 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
-import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getFavorites } from "@/features/movies/movieThunk";
 import { useToast } from "@/hooks/use-toast";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 function Homepage() {
   const navigate = useNavigate();
@@ -46,9 +46,13 @@ function Homepage() {
       title: "Movie added to favorites",
       variant: "success",
       action: (
-        <Button variant={"ghost"} className="hover:bg-green-700">
-          <Link to="/favorites">Go to Favorites</Link>
-        </Button>
+        <ButtonLink
+          to="/favorites"
+          className="bg-green-600 hover:bg-green-700"
+          variant="outline"
+        >
+          Go to Favorites
+        </ButtonLink>
       ),
     });
   };
