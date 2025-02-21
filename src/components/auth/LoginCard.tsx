@@ -139,6 +139,7 @@ function LoginCard() {
               variant={"outline"}
               size={"icon"}
               onClick={() => dispatch(signInWithGoogle())}
+              className="bg-[#d44335] hover:bg-[#d44335] text-white hover:text-white"
             >
               <FaGoogle />
             </Button>
@@ -146,6 +147,7 @@ function LoginCard() {
               variant={"outline"}
               size={"icon"}
               onClick={() => dispatch(signInWithFacebook())}
+              className="bg-[#0862f6] hover:bg-[#0862f6] text-white hover:text-white"
             >
               <FaFacebookF />
             </Button>
