@@ -15,6 +15,7 @@ import Favoritepage from "./pages/Favoritepage";
 import Searchpage from "./pages/Searchpage";
 import ThemeToggler from "./components/ThemeToggler";
 import { Toaster } from "@/components/ui/toaster";
+import PageTransition from "./components/PageTransition";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -58,15 +59,57 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Homepage />} />
-          <Route path="/search" element={<Searchpage />} />
+          <Route
+            index
+            element={
+              <PageTransition>
+                <Homepage />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/search"
+            element={
+              <PageTransition>
+                <Searchpage />
+              </PageTransition>
+            }
+          />
           <Route element={<ProtectedRoute />}>
-            <Route path="/favorites" element={<Favoritepage />} />
+            <Route
+              path="/favorites"
+              element={
+                <PageTransition>
+                  <Favoritepage />
+                </PageTransition>
+              }
+            />
           </Route>
-          <Route path="/movie/:movieId" element={<Moviepage />} />
+          <Route
+            path="/movie/:movieId"
+            element={
+              <PageTransition>
+                <Moviepage />
+              </PageTransition>
+            }
+          />
         </Route>
-        <Route path="/login" element={<Loginpage />} />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route
+          path="/login"
+          element={
+            <PageTransition>
+              <Loginpage />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <PageTransition>
+              <SignupPage />
+            </PageTransition>
+          }
+        />
       </Routes>
       <ThemeToggler />
       <Toaster />

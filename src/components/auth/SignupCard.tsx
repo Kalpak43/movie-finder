@@ -35,7 +35,11 @@ function SignupCard() {
   const [errors, setErrors] = useState<FormErrors>({});
 
   useEffect(() => {
-    console.log(error);
+    if (error)
+      toast({
+        title: error,
+        variant: "destructive",
+      });
   }, [error]);
 
   const validateForm = (): boolean => {
