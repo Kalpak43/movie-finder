@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
-import { ArrowRight, ChevronRight, Star } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 
 function MovieCard({
   movie,

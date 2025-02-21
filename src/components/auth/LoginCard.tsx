@@ -5,7 +5,12 @@ import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router";
 import { Loader2 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/hook";
-import { signIn } from "@/features/auth/authThunk";
+import {
+  signIn,
+  signInWithFacebook,
+  signInWithGoogle,
+} from "@/features/auth/authThunk";
+import { FaFacebookF, FaGoogle } from "react-icons/fa6";
 
 interface FormData {
   email: string;
@@ -107,17 +112,41 @@ function LoginCard() {
               <p className="text-red-500 text-xs">{errors.password}</p>
             )}
           </div>
-          <Button type="submit" className="w-full bg-[#f6c700]" disabled={loading}>
+          <Button
+            type="submit"
+            className="w-full bg-[#f6c700]"
+            disabled={loading}
+          >
             {loading ? <Loader2 className="animate-spin" /> : "Log in"}
           </Button>
         </form>
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-        <p className="text-xs text-center mt-2">
+        <p className="text-xs text-center my-2">
           Don't have an account?{" "}
           <Link to="/signup" className="text-blue-600 underline">
             Sign up
           </Link>
         </p>
+        <hr />
+        <div className="text-xs text-center mt-2 space-y-2">
+          <p className="text-center text-[#f6c700]">or you can sign in with</p>
+          <div className="flex items-center justify-center gap-4">
+            <Button
+              variant={"outline"}
+              size={"icon"}
+              onClick={() => dispatch(signInWithGoogle())}
+            >
+              <FaGoogle />
+            </Button>
+            <Button
+              variant={"outline"}
+              size={"icon"}
+              onClick={() => dispatch(signInWithFacebook())}
+            >
+              <FaFacebookF />
+            </Button>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

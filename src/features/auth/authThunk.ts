@@ -27,6 +27,27 @@ export const signIn = createAsyncThunk(
   }
 );
 
+export const signInWithGoogle = createAsyncThunk(
+  "auth/signInWithGoogle",
+  async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+
+    if (error) throw error;
+  }
+);
+export const signInWithFacebook = createAsyncThunk(
+  "auth/signInWithFacebook",
+  async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "facebook",
+    });
+
+    if (error) throw error;
+  }
+);
+
 export const signOut = createAsyncThunk("auth/signOut", async () => {
   const { error } = await supabase.auth.signOut();
   if (error) throw error;

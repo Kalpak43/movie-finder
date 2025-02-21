@@ -32,16 +32,22 @@ function Favoritepage() {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">Your Favorites: </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        {favorites.map((fav) => (
-          <MovieCard
-            key={fav.imdbID}
-            movie={fav}
-            handleAddToFavorties={handleAddToFavorties}
-            handleRemoveFavorites={removeFromFavorites}
-          />
-        ))}
-      </div>
+      {favorites.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {favorites.map((fav) => (
+            <MovieCard
+              key={fav.imdbID}
+              movie={fav}
+              handleAddToFavorties={handleAddToFavorties}
+              handleRemoveFavorites={removeFromFavorites}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="min-h-[600px] text-center flex items-center justify-center text-red-500">
+          <p>No Favorites found. Movies marked as favorite are shown here.</p>
+        </div>
+      )}
     </div>
   );
 }

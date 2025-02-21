@@ -1,6 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "@supabase/supabase-js";
-import { checkSession, signIn, signOut, signUp } from "./authThunk";
+import {
+  checkSession,
+  signIn,
+  signInWithFacebook,
+  signInWithGoogle,
+  signOut,
+  signUp,
+} from "./authThunk";
 
 interface AuthSliceType {
   user: User | null;
@@ -29,6 +36,12 @@ const authSlice = createSlice({
       .addCase(signIn.pending, (state) => {
         state.loading = true;
       })
+      .addCase(signInWithGoogle.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(signInWithFacebook.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(signOut.pending, (state) => {
         state.loading = true;
       })
@@ -44,6 +57,12 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.loading = false;
       })
+      .addCase(signInWithGoogle.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(signInWithFacebook.fulfilled, (state) => {
+        state.loading = false;
+      })
       .addCase(signOut.fulfilled, (state) => {
         state.user = null;
         state.loading = false;
@@ -56,6 +75,20 @@ const authSlice = createSlice({
         }
       })
       .addCase(signIn.rejected, (state, action) => {
+        if (action.error instanceof Error) {
+          state.error = action.error.message;
+        } else {
+          state.error = "Some unknown error occured.";
+        }
+      })
+      .addCase(signInWithGoogle.rejected, (state, action) => {
+        if (action.error instanceof Error) {
+          state.error = action.error.message;
+        } else {
+          state.error = "Some unknown error occured.";
+        }
+      })
+      .addCase(signInWithFacebook.rejected, (state, action) => {
         if (action.error instanceof Error) {
           state.error = action.error.message;
         } else {

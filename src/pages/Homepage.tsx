@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { getFavorites, getRecommendations } from "@/features/movies/movieThunk";
+import { getFavorites } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";

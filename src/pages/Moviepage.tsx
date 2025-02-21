@@ -293,7 +293,7 @@ function MoviePage() {
             <TableRow>
               <TableCell className="font-[600]">Collection</TableCell>
               <TableCell className="text-[var(--highlight)]">
-                {movie.BoxOffice}
+                {movie.BoxOffice ?? "N/A"}
               </TableCell>
             </TableRow>
           </TableBody>
