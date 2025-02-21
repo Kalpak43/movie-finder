@@ -189,6 +189,13 @@ function MoviePage() {
     });
   };
 
+  const getDefaultTab = () => {
+    if (whereToWatch.flatrate) return "subscription";
+    if (whereToWatch.rent) return "rent";
+    if (whereToWatch.buy) return "buy";
+    return ""; // Fallback, should never be reached if at least one option is available
+  };
+
   return (
     <div className="space-y-2 pb-4">
       {theme == "dark" && (
@@ -357,7 +364,7 @@ function MoviePage() {
           {!loadingWatch ? (
             whereToWatch ? (
               <>
-                <Tabs defaultValue="subscription" className="w-full">
+                <Tabs defaultValue={getDefaultTab()} className="w-full">
                   <TabsList className="grid w-full grid-cols-3">
                     {whereToWatch.flatrate && (
                       <TabsTrigger value="subscription">
