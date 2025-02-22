@@ -61,7 +61,7 @@ function Favoritepage() {
             {favorites.map((fav) => (
               <motion.div
                 layout
-                key={fav.imdbID}
+                key={`motion-${fav.imdbID}`}
                 initial={{ opacity: 0, x: -100 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 100 }}
