@@ -107,7 +107,8 @@ function MoviePage() {
   }, [movieId]);
 
   useEffect(() => {
-    if (movieId?.trim() != "") {
+    if (movieId && movieId != undefined && movieId !== "") {
+      console.log("MOVIE: ", movieId);
       setLoadingWatch(true);
       axios
         .get(
@@ -190,6 +191,7 @@ function MoviePage() {
   };
 
   const getDefaultTab = () => {
+    if (!whereToWatch) return "";
     if (whereToWatch.flatrate) return "subscription";
     if (whereToWatch.rent) return "rent";
     if (whereToWatch.buy) return "buy";
@@ -266,15 +268,16 @@ function MoviePage() {
                   <TableCell className="font-[600]">Genre</TableCell>
                   <TableCell>
                     <div className="flex gap-2 flex-wrap">
-                      {movie.Genre.split(",").map((g) => (
-                        <Badge
-                          key={g}
-                          className="py-1 px-4"
-                          variant={"secondary"}
-                        >
-                          {g}
-                        </Badge>
-                      ))}
+                      {movie.Genre &&
+                        movie.Genre.split(",").map((g) => (
+                          <Badge
+                            key={g}
+                            className="py-1 px-4"
+                            variant={"secondary"}
+                          >
+                            {g}
+                          </Badge>
+                        ))}
                     </div>
                   </TableCell>
                 </TableRow>

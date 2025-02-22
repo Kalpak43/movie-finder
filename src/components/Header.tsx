@@ -79,7 +79,11 @@ function Header() {
                         size={"icon"}
                         className="rounded-full bg-[var(--highlight)] text-black"
                       >
-                        {user.email?.slice(0, 1).toUpperCase()}
+                        {user.user_metadata.avatar_url ? (
+                          <img src={user.user_metadata.avatar_url} alt="" className="rounded-full" />
+                        ) : (
+                          user.email?.slice(0, 1).toUpperCase()
+                        )}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
