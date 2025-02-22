@@ -41,6 +41,10 @@ function MoviePage() {
   const [loadingWatch, setLoadingWatch] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  useEffect(() => {
     if (movie) {
       const img = new Image();
       img.crossOrigin = "anonymous";
