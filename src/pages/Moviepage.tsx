@@ -90,20 +90,21 @@ function MoviePage() {
 
   useEffect(() => {
     setLoading(true);
-    axios
-      .get(`${BASE_URL}?apikey=${API_KEY}&i=${movieId}`)
-      .then((res) => {
-        const movieData = res.data;
-        const isFavorite = favorites.some(
-          (fav) => fav.imdbID === movieData.imdbID
-        );
-        setMovie({ ...movieData, fav: isFavorite });
-        setLoading(false);
-      })
-      .catch((e) => {
-        console.error(e);
-        setLoading(false);
-      });
+    if (movieId && movieId != undefined && movieId !== "")
+      axios
+        .get(`${BASE_URL}?apikey=${API_KEY}&i=${movieId}`)
+        .then((res) => {
+          const movieData = res.data;
+          const isFavorite = favorites.some(
+            (fav) => fav.imdbID === movieData.imdbID
+          );
+          setMovie({ ...movieData, fav: isFavorite });
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.error(e);
+          setLoading(false);
+        });
   }, [movieId]);
 
   useEffect(() => {
