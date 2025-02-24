@@ -92,7 +92,7 @@ function LoginCard() {
   return (
     <Card className="relative z-10 w-full max-w-md mx-auto shadow-lg">
       <CardHeader>
-        <CardTitle className="text-2xl text-center text-[#f6c700]">Log in</CardTitle>
+        <CardTitle className="text-2xl text-center text-green-500">Log in</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -127,7 +127,7 @@ function LoginCard() {
           </div>
           <Button
             type="submit"
-            className="w-full bg-[#f6c700]"
+            className="w-full bg-green-500"
             disabled={loading}
           >
             {loading ? <Loader2 className="animate-spin" /> : "Log in"}
@@ -142,7 +142,7 @@ function LoginCard() {
         </p>
         <hr />
         <div className="text-xs text-center mt-2 space-y-2">
-          <p className="text-center text-[#f6c700]">or you can sign in with</p>
+          <p className="text-center text-[var(--highlight)]">or you can sign in with</p>
           <div className="flex items-center justify-center gap-4">
             <Button
               variant={"outline"}

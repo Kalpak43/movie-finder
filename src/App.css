@@ -14,7 +14,8 @@
 
 header {
   /* background-color: var(--header); */
-  background-color: #f6c700;
+  background-color: #7b8bb79d;
+  backdrop-filter: blur(10px);
 }
 
 .search {
@@ -24,16 +25,18 @@ header {
 :root {
   --header: #fff;
   --search: #eaeaea;
-  --highlight: #dbb926;
+  --highlight: #2693db;
   --highlight-2: #4dbdf180;
+  --highlight-3: #dbb926;
   --scroll-color: rgba(22, 22, 22, 0.312);
 }
 
 .dark {
   --header: #000;
   --search: #1a1a1a;
-  --highlight: #d8c882;
+  --highlight: #82b3d8;
   --highlight-2: #00256a9c;
+  --highlight-3: #d8c882;
   --scroll-color: rgba(255, 255, 255, 0.312);
 }
 

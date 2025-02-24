@@ -22,6 +22,11 @@ function App() {
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+  const { status } = useAppSelector((state) => state.movies);
+
+  useEffect(() => {
+    console.log(status);
+  }, [status]);
 
   // useEffect(() => {}, [dispatch]);
 

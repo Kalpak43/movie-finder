@@ -404,7 +404,7 @@ function MoviePage() {
                   </>
                 ) : (
                   <div className="flex items-center justify-center h-[100px]">
-                    <p className="text-center text-[var(--highlight)]">
+                    <p className="text-center text-[var(--highlight-3)]">
                       No Services found
                     </p>
                   </div>

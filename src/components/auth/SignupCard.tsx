@@ -234,7 +234,7 @@ function SignupCard() {
 
           <Button
             type="submit"
-            className="w-full bg-[#f6c700]"
+            className="w-full bg-blue-400"
             disabled={loading}
           >
             {loading ? <Loader2 className="animate-spin" /> : "Sign Up"}
