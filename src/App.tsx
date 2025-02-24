@@ -22,39 +22,42 @@ function App() {
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
-  const { status } = useAppSelector((state) => state.movies);
-
-  useEffect(() => {
-    console.log(status);
-  }, [status]);
 
   // useEffect(() => {}, [dispatch]);
 
   useEffect(() => {
-    // Check initial session
-    dispatch(checkSession());
-    dispatch(getRecommendations());
-    // is there a better way to do this?
+    // Initialize auth state only once
+    const initAuth = async () => {
+      await dispatch(checkSession());
+    };
 
-    // Set up auth listener
+    // Set up auth listener for subsequent changes only
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {
-      dispatch(checkSession());
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event !== "INITIAL_SESSION") {
+        dispatch(checkSession());
+      }
     });
 
-    // Cleanup subscription
+    initAuth();
+
     return () => {
       subscription.unsubscribe();
     };
   }, [dispatch]);
 
   useEffect(() => {
-    if (user)
+    dispatch(getRecommendations());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
       toast({
         title: "Logged in successfully",
         variant: "success",
       });
+    }
   }, [user]);
 
   useEffect(() => {
