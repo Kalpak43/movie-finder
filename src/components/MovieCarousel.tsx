@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { motion, AnimatePresence } from "motion/react";
 import MovieCard from "./MovieCard";
-import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
 
 function MovieCarousel({
@@ -51,11 +51,11 @@ function MovieCarousel({
       <div className=" p-2 bg-[var(--highlight-2)] rounded-md text-center shadow-md flex justify-between gap-2 items-center">
         <h1 className="text-2xl font-bold">Recommendations</h1>
         <div className="flex items-center gap-2">
-          <button className="cursor-pointer" onClick={previous}>
-            <CircleChevronLeft />
+          <button className="cursor-pointer p-1 rounded-full border-2 border-foreground hover:bg-foreground hover:text-background transition-all duration-300" onClick={previous}>
+            <ChevronLeft />
           </button>
-          <button className="cursor-pointer" onClick={next}>
-            <CircleChevronRight />
+          <button className="cursor-pointer p-1 rounded-full border-2 border-foreground hover:bg-foreground hover:text-background transition-all duration-300" onClick={next}>
+            <ChevronRight />
           </button>
         </div>
       </div>
