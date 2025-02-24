@@ -21,7 +21,11 @@ const initialState: MovieSliceType = {
 export const movieSlice = createSlice({
   name: "movies",
   initialState,
-  reducers: {},
+  reducers: {
+    setStatus: (state, action) => {
+      state.status = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getRecommendations.pending, (state) => {
@@ -51,5 +55,7 @@ export const movieSlice = createSlice({
       });
   },
 });
+
+export const { setStatus } = movieSlice.actions;
 
 export default movieSlice.reducer;

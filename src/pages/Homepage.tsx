@@ -1,7 +1,8 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { getFavorites, getRecommendations } from "@/features/movies/movieThunk";
+import { setStatus } from "@/features/movies/movieSlice";
+import { getFavorites } from "@/features/movies/movieThunk";
 import { useToast } from "@/hooks/use-toast";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
@@ -22,8 +23,12 @@ function Homepage() {
     useState<MovieType[]>(recommendations);
 
   useEffect(() => {
-    dispatch(getRecommendations());
-  }, [dispatch]);
+    if (recommendations) dispatch(setStatus("succeeded"));
+  }, [recommendations]);
+
+  // useEffect(() => {
+  //   dispatch(getRecommendations());
+  // }, [dispatch]);
 
   useEffect(() => {
     if (recommendations) {
@@ -82,7 +87,7 @@ function Homepage() {
           <Loader2 className="animate-spin" />
         </div>
       )}
-      {status == "failed" && <p></p>}
+      {status == "failed" && <p>Failed to fetch</p>}
 
       {status === "succeeded" && moviesWithFav.length > 0 && (
         <>

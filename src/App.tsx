@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { checkSession } from "./features/auth/authThunk";
 import supabase from "./supabase";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import { getFavorites } from "./features/movies/movieThunk";
+import { getFavorites, getRecommendations } from "./features/movies/movieThunk";
 import Favoritepage from "./pages/Favoritepage";
 import Searchpage from "./pages/Searchpage";
 import ThemeToggler from "./components/ThemeToggler";
@@ -21,10 +21,13 @@ function App() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
-  // is there a better way to do this?
+  // useEffect(() => {}, [dispatch]);
+
   useEffect(() => {
     // Check initial session
     dispatch(checkSession());
+    dispatch(getRecommendations());
+    // is there a better way to do this?
 
     // Set up auth listener
     const {
