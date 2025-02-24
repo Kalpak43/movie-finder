@@ -8,7 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EllipsisVertical, Search, X } from "lucide-react";
+import { EllipsisVertical, Search, SearchIcon, X } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ButtonLink } from "./ui/ButtonLink";
@@ -18,15 +18,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip";
+import { Card } from "./ui/card";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
+import { useTheme } from "@/contexts/ThemeProvider";
 
 function Header() {
+  const { theme } = useTheme();
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+  const { movies } = useAppSelector((state) => state.movies);
 
   const [open, setOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSignout = async () => {
     await dispatch(signOut());
@@ -64,8 +70,43 @@ function Header() {
           </Tooltip>
         </TooltipProvider>
 
-        <div className="max-md:hidden">
-          <Searchbar />
+        <div className="max-md:hidden relative">
+          <Searchbar setIsFocused={setIsFocused} />
+          {isFocused && (
+            <Card className="absolute top-full my-2 inset-x-0 rounded-md overflow-hidden">
+              <ScrollArea className=" h-[300px] overflow-y-auto space-y-2 py-4">
+                {movies.length > 0 ? (
+                  movies.map((movie) => (
+                    <Link
+                      to={"/movie/" + movie.imdbID}
+                      className={`flex items-center gap-2 w-full ${
+                        theme === "dark"
+                          ? "hover:bg-gray-800"
+                          : "hover:bg-gray-200"
+                      }`}
+                    >
+                      <img
+                        src={movie.Poster}
+                        alt={movie.Title}
+                        className="h-16 aspect-square object-cover"
+                      />
+                      <div>
+                        <h4>{movie.Title}</h4>
+                        <p>{movie.Year}</p>
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <>
+                    <div className="h-full w-full flex items-center justify-center gap-2">
+                      <SearchIcon size={20} />
+                      Search Something
+                    </div>
+                  </>
+                )}
+              </ScrollArea>
+            </Card>
+          )}
         </div>
         {user ? (
           <>
@@ -80,7 +121,11 @@ function Header() {
                         className="rounded-full bg-[var(--highlight)] text-black"
                       >
                         {user.user_metadata.avatar_url ? (
-                          <img src={user.user_metadata.avatar_url} alt="" className="rounded-full" />
+                          <img
+                            src={user.user_metadata.avatar_url}
+                            alt=""
+                            className="rounded-full"
+                          />
                         ) : (
                           user.email?.slice(0, 1).toUpperCase()
                         )}
@@ -150,7 +195,41 @@ function Header() {
 
       {open && (
         <div className="p-4 absolute inset-x-0 top-full bg-[var(--header)] md:hidden">
-          <Searchbar />
+          <Searchbar setIsFocused={setOpen} />
+
+          <Card className="absolute top-full  inset-x-0 rounded-md overflow-hidden">
+            <ScrollArea className=" h-[300px] overflow-y-auto space-y-2 py-4">
+              {movies.length > 0 ? (
+                movies.map((movie) => (
+                  <Link
+                    to={"/movie/" + movie.imdbID}
+                    className={`flex items-center gap-2 w-full ${
+                      theme === "dark"
+                        ? "hover:bg-gray-800"
+                        : "hover:bg-gray-200"
+                    }`}
+                  >
+                    <img
+                      src={movie.Poster}
+                      alt={movie.Title}
+                      className="h-16 aspect-square object-cover"
+                    />
+                    <div>
+                      <h4>{movie.Title}</h4>
+                      <p>{movie.Year}</p>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <>
+                  <div className="h-full w-full flex items-center justify-center gap-2">
+                    <SearchIcon size={20} />
+                    Search Something
+                  </div>
+                </>
+              )}
+            </ScrollArea>
+          </Card>
         </div>
       )}
     </header>

@@ -25,22 +25,18 @@ export const movieSlice = createSlice({
     setStatus: (state, action) => {
       state.status = action.payload;
     },
+    setMovies: (state, action) => {
+      state.movies = action.payload;
+    },
   },
   extraReducers(builder) {
     builder
       .addCase(getRecommendations.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(searchMovies.pending, (state) => {
-        state.status = "loading";
-      })
       .addCase(searchMovies.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.movies = action.payload;
-      })
-      .addCase(searchMovies.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
       })
       .addCase(getFavorites.fulfilled, (state, action) => {
         state.favorites = action.payload;
@@ -56,6 +52,6 @@ export const movieSlice = createSlice({
   },
 });
 
-export const { setStatus } = movieSlice.actions;
+export const { setStatus, setMovies } = movieSlice.actions;
 
 export default movieSlice.reducer;
