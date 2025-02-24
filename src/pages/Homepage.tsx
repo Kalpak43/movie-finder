@@ -76,7 +76,7 @@ function Homepage() {
   };
 
   return (
-    <div className="py-4">
+    <div className="py-4 space-y-4">
       {status == "loading" && (
         <div className="min-h-[80dvh] flex items-center justify-center">
           <Loader2 className="animate-spin" />

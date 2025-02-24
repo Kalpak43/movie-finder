@@ -1,5 +1,6 @@
 import { useTheme } from "@/contexts/ThemeProvider";
 import { useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
 
 function AmbientCard({ src }: { src: string }) {
   const { theme } = useTheme();
@@ -55,7 +56,10 @@ function AmbientCard({ src }: { src: string }) {
   }, [dominantColor, theme]);
 
   return (
-    <canvas
+    <motion.canvas
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, delay: 0.5 }}
       ref={canvasRef}
       className="fixed z-[-1] inset-0 w-full h-full"
       width={1920}
