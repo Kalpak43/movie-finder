@@ -78,26 +78,29 @@ function Header() {
         <div className="max-md:hidden relative">
           <Searchbar setIsFocused={setIsFocused} />
           {isFocused && (
-            <Card className="absolute top-full my-2 inset-x-0 rounded-md overflow-hidden">
+            <Card className="search-panel absolute top-full my-2 inset-x-0 rounded-md overflow-hidden">
               <ScrollArea className=" h-[300px] overflow-y-auto space-y-2 py-4">
                 {movies.length > 0 ? (
                   movies.map((movie) => (
                     <Link
-                      to={"/movie/" + movie.imdbID}
-                      className={`flex items-center gap-2 w-full ${
+                      key={movie.imdbID}
+                      to={`/movie/${movie.imdbID}`}
+                      className={`flex items-center gap-4 p-2 rounded-md transition-colors ${
                         theme === "dark"
                           ? "hover:bg-gray-800"
                           : "hover:bg-gray-200"
                       }`}
                     >
                       <img
-                        src={movie.Poster}
+                        src={movie.Poster || "/placeholder.svg"}
                         alt={movie.Title}
-                        className="h-16 aspect-square object-cover"
+                        className="h-16 w-16 object-cover rounded"
                       />
                       <div>
-                        <h4>{movie.Title}</h4>
-                        <p>{movie.Year}</p>
+                        <h4 className="font-semibold">{movie.Title}</h4>
+                        <p className="text-sm text-muted-foreground">
+                          {movie.Year}
+                        </p>
                       </div>
                     </Link>
                   ))

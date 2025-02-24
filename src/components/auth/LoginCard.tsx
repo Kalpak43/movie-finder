@@ -12,6 +12,7 @@ import {
 } from "@/features/auth/authThunk";
 import { FaFacebookF, FaGoogle } from "react-icons/fa6";
 import { useToast } from "@/hooks/use-toast";
+import PasswordInput from "../PasswordInput";
 
 interface FormData {
   email: string;
@@ -114,12 +115,10 @@ function LoginCard() {
             <label htmlFor="password" className="text-sm font-medium">
               Password
             </label>
-            <Input
-              id="password"
+            <PasswordInput
               name="password"
-              type="password"
               value={formData.password}
-              onChange={handleChange}
+              handleChange={handleChange}
               placeholder="Enter your password"
             />
             {errors.password && (

@@ -29,12 +29,12 @@ function MovieCard({
       <CardContent className="p-2 space-y-2 flex-1">
         <div className="flex flex-col justify-between h-full gap-2">
           <div className="flex-1">
-            <CardTitle className="text-md font-semibold">
+            <CardTitle className="text-md font-semibold line-clamp-1">
               {movie.Title}
             </CardTitle>
-            {/* <p className="text-sm text-gray-500">
+            <p className="text-xs text-gray-500">
               {movie.Year} • {movie.Type}
-            </p> */}
+            </p>
           </div>
           <TooltipProvider>
             <Tooltip>
