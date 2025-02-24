@@ -1,5 +1,6 @@
 header {
-  background-color: var(--header);
+  /* background-color: var(--header); */
+  background-color: #f6c700;
 }
 
 .search {
