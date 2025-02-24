@@ -77,7 +77,10 @@ function MovieCarousel({
           className="my-6"
         >
           {moviesWithFav.map((movie) => (
-            <motion.div key={movie.imdbID} className="px-1">
+            <motion.div
+              key={movie.imdbID}
+              className="px-1 hover:scale-110 my-8 transition-all duration-300"
+            >
               <MovieCard
                 movie={movie}
                 handleAddToFavorties={handleAddToFavorties}
