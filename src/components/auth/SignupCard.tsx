@@ -122,6 +122,7 @@ function SignupCard() {
         title: "Sign up successful",
         description:
           "A verification mail has been sent. Please verify before login.",
+        variant: "success",
       });
       navigate("/login");
     }
@@ -166,45 +167,45 @@ function SignupCard() {
             />
             {formData.password.length > 0 && (
               <div className="mt-2 text-xs">
-              <p className="text-[var(--highlight)]">
-                Password must contain:{" "}
-              </p>
-              <p
-                className={` ${
-                rules.includes(1) ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {rules.includes(1) ? (
-                <CircleCheck size={12} className="inline mr-2" />
-                ) : (
-                <CircleX size={12} className="inline mr-2" />
-                )}
-                At least 6 characters
-              </p>
-              <p
-                className={` ${
-                rules.includes(2) ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {rules.includes(2) ? (
-                <CircleCheck size={12} className="inline mr-2" />
-                ) : (
-                <CircleX size={12} className="inline mr-2" />
-                )}
-                At least one capital letter
-              </p>
-              <p
-                className={` ${
-                rules.includes(3) ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {rules.includes(3) ? (
-                <CircleCheck size={12} className="inline mr-2" />
-                ) : (
-                <CircleX size={12} className="inline mr-2" />
-                )}
-                At least one special character
-              </p>
+                <p className="text-[var(--highlight)]">
+                  Password must contain:{" "}
+                </p>
+                <p
+                  className={` ${
+                    rules.includes(1) ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {rules.includes(1) ? (
+                    <CircleCheck size={12} className="inline mr-2" />
+                  ) : (
+                    <CircleX size={12} className="inline mr-2" />
+                  )}
+                  At least 6 characters
+                </p>
+                <p
+                  className={` ${
+                    rules.includes(2) ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {rules.includes(2) ? (
+                    <CircleCheck size={12} className="inline mr-2" />
+                  ) : (
+                    <CircleX size={12} className="inline mr-2" />
+                  )}
+                  At least one capital letter
+                </p>
+                <p
+                  className={` ${
+                    rules.includes(3) ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {rules.includes(3) ? (
+                    <CircleCheck size={12} className="inline mr-2" />
+                  ) : (
+                    <CircleX size={12} className="inline mr-2" />
+                  )}
+                  At least one special character
+                </p>
               </div>
             )}
           </div>
