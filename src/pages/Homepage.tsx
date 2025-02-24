@@ -1,5 +1,4 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
-import AmbientCard from "@/components/AmbientCard";
 import MovieCard from "@/components/MovieCard";
 import Searchbar from "@/components/Searchbar";
 import { ButtonLink } from "@/components/ui/ButtonLink";
