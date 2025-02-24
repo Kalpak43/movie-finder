@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { checkSession } from "./features/auth/authThunk";
 import supabase from "./supabase";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-import { getFavorites, getRecommendations } from "./features/movies/movieThunk";
+import { getFavorites } from "./features/movies/movieThunk";
 import Favoritepage from "./pages/Favoritepage";
 import Searchpage from "./pages/Searchpage";
 import ThemeToggler from "./components/ThemeToggler";
@@ -46,10 +46,6 @@ function App() {
   //       variant: "success",
   //     });
   // }, [user]);
-
-  useEffect(() => {
-    dispatch(getRecommendations());
-  }, [dispatch]);
 
   useEffect(() => {
     if (user) dispatch(getFavorites(user.id));

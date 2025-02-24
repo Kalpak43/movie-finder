@@ -1,8 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { getFavorites } from "@/features/movies/movieThunk";
+import { getFavorites, getRecommendations } from "@/features/movies/movieThunk";
 import { useToast } from "@/hooks/use-toast";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
@@ -21,6 +20,10 @@ function Homepage() {
 
   const [moviesWithFav, setMoviesWithFav] =
     useState<MovieType[]>(recommendations);
+
+  useEffect(() => {
+    dispatch(getRecommendations());
+  }, [dispatch]);
 
   useEffect(() => {
     if (recommendations) {
@@ -84,29 +87,28 @@ function Homepage() {
       {status === "succeeded" && moviesWithFav.length > 0 && (
         <>
           <h1 className="text-2xl font-bold">Recommendations: </h1>
-          <ScrollArea className="w-full whitespace-nowrap overflow-x-auto py-2 mt-4">
-            <AnimatePresence>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {moviesWithFav.map((movie) => (
-                  <motion.div
-                    layout
+
+          <AnimatePresence>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {moviesWithFav.map((movie) => (
+                <motion.div
+                  layout
+                  key={movie.imdbID}
+                  initial={{ opacity: 0, y: 100 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -100 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <MovieCard
                     key={movie.imdbID}
-                    initial={{ opacity: 0, y: 100 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -100 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    <MovieCard
-                      key={movie.imdbID}
-                      movie={movie}
-                      handleAddToFavorties={handleAddToFavorties}
-                      handleRemoveFavorites={removeFromFavorites}
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            </AnimatePresence>
-          </ScrollArea>
+                    movie={movie}
+                    handleAddToFavorties={handleAddToFavorties}
+                    handleRemoveFavorites={removeFromFavorites}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </AnimatePresence>
         </>
       )}
     </div>

@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getFavorites, searchMovies } from "@/features/movies/movieThunk";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
@@ -14,17 +15,23 @@ function Searchpage() {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  const { movies, favorites, status } = useAppSelector((state) => state.movies);
+  const { movies, favorites, status, recommendations } = useAppSelector(
+    (state) => state.movies
+  );
   const { user } = useAppSelector((state) => state.auth);
 
   const [moviesWithFav, setMoviesWithFav] = useState<MovieType[]>(movies);
 
   useEffect(() => {
-    if (query.trim() !== "") dispatch(searchMovies(query));
+    console.log(recommendations);
+  }, [recommendations]);
+
+  useEffect(() => {
+    if (query && query.trim() !== "") dispatch(searchMovies(query));
   }, [query]);
 
   useEffect(() => {
-    if (movies) {
+    if (movies && favorites) {
       const updatedMovies = movies.map((movie) => {
         const isFavorite = favorites.some((fav) => fav.imdbID === movie.imdbID);
         return { ...movie, fav: isFavorite };
@@ -80,9 +87,14 @@ function Searchpage() {
           </ScrollArea>
         </>
       ) : (
-        <div className="min-h-[70dvh] text-lg flex items-center justify-center">
-          No movies found for term:
-          <span className="text-[var(--highlight)]"> {query}</span>
+        <div className="min-h-[70dvh] text-lg text-center flex flex-col justify-center items-center justify-center">
+          <p>
+            No movies found for term:
+            <span className="text-[var(--highlight)]"> {query}</span>
+          </p>
+          <ButtonLink to={"/"} variant="outline" className="ml-4">
+            Go back
+          </ButtonLink>
         </div>
       )}
     </div>

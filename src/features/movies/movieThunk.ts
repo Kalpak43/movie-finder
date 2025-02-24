@@ -19,15 +19,18 @@ export const searchMovies = createAsyncThunk(
 
       const { data } = response;
 
-      if (data.Error) return thunkAPI.rejectWithValue(data.Error);
+      // Check if the API returned an error
+      if (data.Error) {
+        return thunkAPI.rejectWithValue(data.Error);
+      }
 
-      return response.data.Search;
+      // Return empty array if no results
+      return data.Search || [];
     } catch (e) {
       if (e instanceof Error) {
         return thunkAPI.rejectWithValue(e.message);
-      } else {
-        return thunkAPI.rejectWithValue("Some unknown error occured");
       }
+      return thunkAPI.rejectWithValue("An unknown error occurred");
     }
   }
 );
