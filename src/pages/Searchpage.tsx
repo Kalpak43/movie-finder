@@ -3,16 +3,18 @@ import MovieCard from "@/components/MovieCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getFavorites, searchMovies } from "@/features/movies/movieThunk";
+import { useToast } from "@/hooks/use-toast";
 import { addToFavorite, removeFavorite } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router";
+import { useLocation, useNavigate, useSearchParams } from "react-router";
 
 function Searchpage() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
-
+  const { toast } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const dispatch = useAppDispatch();
   const { movies, favorites, status, recommendations } = useAppSelector(
@@ -42,12 +44,29 @@ function Searchpage() {
   }, [movies, favorites]);
 
   const handleAddToFavorties = async (movie: MovieType) => {
-    if (!user) navigate("/login");
+    if (!user) {
+      navigate("/login", { state: { from: location } });
+      return;
+    }
     const { error } = await addToFavorite(user?.id!, movie);
 
     if (error) console.error(error);
 
-    dispatch(getFavorites(user?.id!));
+    await dispatch(getFavorites(user?.id!));
+
+    toast({
+      title: "Movie added to favorites",
+      variant: "success",
+      action: (
+        <ButtonLink
+          to="/favorites"
+          className="bg-green-600 hover:bg-green-700"
+          variant="outline"
+        >
+          Go to Favorites
+        </ButtonLink>
+      ),
+    });
   };
 
   const removeFromFavorites = async (movie: MovieType) => {
@@ -55,7 +74,12 @@ function Searchpage() {
 
     if (error) console.error(error);
 
-    dispatch(getFavorites(user?.id!));
+    await dispatch(getFavorites(user?.id!));
+
+    toast({
+      title: "Movie removed from favorites",
+      variant: "destructive",
+    });
   };
 
   return (
