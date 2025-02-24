@@ -1,3 +1,17 @@
+.hero {
+  background-image: url("/movie-bg-2.jpeg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: #00000080;
+  backdrop-filter: blur(2px);
+}
+
 header {
   /* background-color: var(--header); */
   background-color: #f6c700;
@@ -11,7 +25,7 @@ header {
   --header: #fff;
   --search: #eaeaea;
   --highlight: #dbb926;
-  --highlight-2: #f1d34d80;
+  --highlight-2: #4dbdf180;
   --scroll-color: rgba(22, 22, 22, 0.312);
 }
 
@@ -19,7 +33,7 @@ header {
   --header: #000;
   --search: #1a1a1a;
   --highlight: #d8c882;
-  --highlight-2: #e1b700;
+  --highlight-2: #00256a9c;
   --scroll-color: rgba(255, 255, 255, 0.312);
 }
 

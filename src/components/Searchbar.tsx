@@ -9,8 +9,10 @@ import { setMovies } from "@/features/movies/movieSlice";
 
 function Searchbar({
   setIsFocused,
+  className,
 }: {
   setIsFocused: React.Dispatch<React.SetStateAction<boolean>>;
+  className?: string;
 }) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -37,8 +39,8 @@ function Searchbar({
   }
 
   return (
-    <div className="search rounded-md ">
-      <form className="relative mx-auto md:w-fit" onSubmit={handleSubmit}>
+    <div className={`search rounded-md overflow-hidden`}>
+      <form className={`relative w-full ${className}`} onSubmit={handleSubmit}>
         <Input
           type="text"
           placeholder="Search a movie"

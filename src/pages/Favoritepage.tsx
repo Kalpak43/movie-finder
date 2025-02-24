@@ -57,38 +57,42 @@ function Favoritepage() {
   };
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-bold p-2 bg-[var(--highlight-2)] rounded-md text-center shadow-md">
-        Your Favorites
-      </h1>
-      <AnimatePresence>
-        {favorites.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-            {favorites.map((fav) => (
-              <motion.div
-                layout
-                key={`motion-${fav.imdbID}`}
-                initial={{ opacity: 0, x: -100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 100 }}
-                transition={{ delay: 0.3 }}
-              >
-                <MovieCard
-                  key={fav.imdbID}
-                  movie={fav}
-                  handleAddToFavorties={handleAddToFavorties}
-                  handleRemoveFavorites={removeFromFavorites}
-                />
-              </motion.div>
-            ))}
-          </div>
-        ) : (
-          <div className="min-h-[600px] text-center flex items-center justify-center text-red-500">
-            <p>No Favorites found. Movies marked as favorite are shown here.</p>
-          </div>
-        )}
-      </AnimatePresence>
-    </div>
+    <main className="px-8 md:px-20 py-10">
+      <div className="space-y-4">
+        <h1 className="text-2xl font-bold p-2 bg-[var(--highlight-2)] rounded-md text-center shadow-md">
+          Your Favorites
+        </h1>
+        <AnimatePresence>
+          {favorites.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+              {favorites.map((fav) => (
+                <motion.div
+                  layout
+                  key={`motion-${fav.imdbID}`}
+                  initial={{ opacity: 0, x: -100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 100 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <MovieCard
+                    key={fav.imdbID}
+                    movie={fav}
+                    handleAddToFavorties={handleAddToFavorties}
+                    handleRemoveFavorites={removeFromFavorites}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="min-h-[600px] text-center flex items-center justify-center text-red-500">
+              <p>
+                No Favorites found. Movies marked as favorite are shown here.
+              </p>
+            </div>
+          )}
+        </AnimatePresence>
+      </div>
+    </main>
   );
 }
 

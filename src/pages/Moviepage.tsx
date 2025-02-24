@@ -157,32 +157,68 @@ function MoviePage() {
   };
 
   return (
-    <div className="space-y-2 pb-4 overflow-x-hidden">
-      {theme == "dark" && movie.Poster && <AmbientCard src={movie.Poster} />}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ delay: 0.1 }}
-        className="space-y-2"
-      >
-        <h1 className="text-3xl font-[500]">{movie.Title}</h1>
-        <div className="flex max-md:flex-col  md:items-center justify-between py-1">
-          <div className="flex items-center gap-2">
-            <p className="text-sm text-muted-foreground pr-2">{movie.Year}</p>
-            <div className="p-[2px] bg-muted-foreground rounded-full"></div>
-            <p className="text-sm text-muted-foreground pr-2">{movie.Rated}</p>
-            <div className="p-[2px] bg-muted-foreground rounded-full"></div>
-            <p className="text-sm text-muted-foreground">{movie.Runtime}</p>
-          </div>
+    <main className="px-8 md:px-20 py-10">
+      <div className="space-y-2 pb-4 overflow-x-hidden">
+        {theme == "dark" && movie.Poster && <AmbientCard src={movie.Poster} />}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ delay: 0.1 }}
+          className="space-y-2"
+        >
+          <h1 className="text-3xl font-[500]">{movie.Title}</h1>
+          <div className="flex max-md:flex-col  md:items-center justify-between py-1">
+            <div className="flex items-center gap-2">
+              <p className="text-sm text-muted-foreground pr-2">{movie.Year}</p>
+              <div className="p-[2px] bg-muted-foreground rounded-full"></div>
+              <p className="text-sm text-muted-foreground pr-2">
+                {movie.Rated}
+              </p>
+              <div className="p-[2px] bg-muted-foreground rounded-full"></div>
+              <p className="text-sm text-muted-foreground">{movie.Runtime}</p>
+            </div>
 
+            <Button
+              onClick={() => {
+                movie.fav
+                  ? removeFromFavorites(movie)
+                  : handleAddToFavorties(movie);
+              }}
+              className={`max-md:hidden ${
+                movie.fav
+                  ? "bg-[#f6c700]"
+                  : "border-1 border-[#f6c700] bg-transparent text-primary hover:bg-[#f6c700]"
+              }`}
+            >
+              <Star />
+              {movie.fav ? "Remove From Favourites" : "Add to Favourites"}
+            </Button>
+          </div>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <Card className="w-full overflow-clip">
+              <img
+                src={movie.Poster === "N/A" ? "/placeholder.png" : movie.Poster}
+                alt={movie.Title}
+                className="w-full h-full rounded-lg shadow-md object-cover"
+              />
+            </Card>
+          </motion.div>
           <Button
             onClick={() => {
               movie.fav
                 ? removeFromFavorites(movie)
                 : handleAddToFavorties(movie);
             }}
-            className={`max-md:hidden ${
+            className={`md:hidden w-full ${
               movie.fav
                 ? "bg-[#f6c700]"
                 : "border-1 border-[#f6c700] bg-transparent text-primary hover:bg-[#f6c700]"
@@ -191,228 +227,198 @@ function MoviePage() {
             <Star />
             {movie.fav ? "Remove From Favourites" : "Add to Favourites"}
           </Button>
+          <motion.div
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            transition={{ delay: 0.1 }}
+            className="md:col-span-2 xl:col-span-3 h-full"
+          >
+            <Card className="h-full p-4 flex flex-col gap-4">
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="font-[600]">Genre</TableCell>
+                    <TableCell>
+                      <div className="flex gap-2 flex-wrap">
+                        {movie.Genre &&
+                          movie.Genre.split(",").map((g) => (
+                            <Badge
+                              key={g}
+                              className="py-1 px-4"
+                              variant={"secondary"}
+                            >
+                              {g}
+                            </Badge>
+                          ))}
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-[600]">Plot</TableCell>
+                    <TableCell>{movie.Plot}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-[600]">Country</TableCell>
+                    <TableCell>{movie.Country}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-[600]">Language</TableCell>
+                    <TableCell>{movie.Language}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+              <div className="flex max-md:flex-col justify-center items-center gap-8 flex-wrap flex-1">
+                {movie.Ratings.length > 0 ? (
+                  movie.Ratings.map((rating) => {
+                    return (
+                      <div key={rating.Source} className="text-center">
+                        {rating.Source == "Internet Movie Database" && (
+                          <FaImdb className="text-[#e2b616] text-6xl xl:text-8xl" />
+                        )}
+                        {rating.Source == "Rotten Tomatoes" && (
+                          <SiRottentomatoes className="text-[#fa320a] text-6xl xl:text-8xl" />
+                        )}
+                        {rating.Source == "Metacritic" && (
+                          <SiMetacritic className="text-[#00ce7a] text-6xl xl:text-8xl" />
+                        )}
+                        <p className="text-[var(--highlight)]">
+                          {rating.Value}
+                        </p>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <h3 className="text-xl font-[600] text-[var(--highlight)]">
+                    No Ratings Available
+                  </h3>
+                )}
+              </div>
+            </Card>
+          </motion.div>
         </div>
-      </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ delay: 0.2 }}
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 100 }}
         >
-          <Card className="w-full overflow-clip">
-            <img
-              src={movie.Poster === "N/A" ? "/placeholder.png" : movie.Poster}
-              alt={movie.Title}
-              className="w-full h-full rounded-lg shadow-md object-cover"
-            />
-          </Card>
-        </motion.div>
-        <Button
-          onClick={() => {
-            movie.fav
-              ? removeFromFavorites(movie)
-              : handleAddToFavorties(movie);
-          }}
-          className={`md:hidden w-full ${
-            movie.fav
-              ? "bg-[#f6c700]"
-              : "border-1 border-[#f6c700] bg-transparent text-primary hover:bg-[#f6c700]"
-          }`}
-        >
-          <Star />
-          {movie.fav ? "Remove From Favourites" : "Add to Favourites"}
-        </Button>
-        <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 100 }}
-          transition={{ delay: 0.1 }}
-          className="md:col-span-2 xl:col-span-3 h-full"
-        >
-          <Card className="h-full p-4 flex flex-col gap-4">
+          <Card className="h-full p-4 mt-4">
             <Table>
               <TableBody>
                 <TableRow>
-                  <TableCell className="font-[600]">Genre</TableCell>
-                  <TableCell>
-                    <div className="flex gap-2 flex-wrap">
-                      {movie.Genre &&
-                        movie.Genre.split(",").map((g) => (
-                          <Badge
-                            key={g}
-                            className="py-1 px-4"
-                            variant={"secondary"}
-                          >
-                            {g}
-                          </Badge>
-                        ))}
-                    </div>
+                  <TableCell className="font-[600]">Director</TableCell>
+                  <TableCell className="text-[var(--highlight)]">
+                    {movie.Director}
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-[600]">Plot</TableCell>
-                  <TableCell>{movie.Plot}</TableCell>
+                  <TableCell className="font-[600]">Writers</TableCell>
+                  <TableCell className="text-[var(--highlight)]">
+                    {movie.Writer}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-[600]">Country</TableCell>
-                  <TableCell>{movie.Country}</TableCell>
+                  <TableCell className="font-[600]">Cast</TableCell>
+                  <TableCell className="text-[var(--highlight)]">
+                    {movie.Actors}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-[600]">Language</TableCell>
-                  <TableCell>{movie.Language}</TableCell>
+                  <TableCell className="font-[600]">Awards</TableCell>
+                  <TableCell className="text-[var(--highlight)]">
+                    {movie.Awards}
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-[600]">Collection</TableCell>
+                  <TableCell className="text-[var(--highlight)]">
+                    {movie.BoxOffice ?? "N/A"}
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
-            <div className="flex max-md:flex-col justify-center items-center gap-8 flex-wrap flex-1">
-              {movie.Ratings.length > 0 ? (
-                movie.Ratings.map((rating) => {
-                  return (
-                    <div key={rating.Source} className="text-center">
-                      {rating.Source == "Internet Movie Database" && (
-                        <FaImdb className="text-[#e2b616] text-6xl xl:text-8xl" />
+          </Card>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 100 }}
+        >
+          <Card className="h-full p-4 mt-4 space-y-4">
+            <CardTitle>
+              <h3 className="text-xl">Where to watch</h3>
+            </CardTitle>
+            <CardContent className="p-0">
+              {!loadingWatch ? (
+                whereToWatch ? (
+                  <>
+                    <Tabs defaultValue={getDefaultTab()} className="w-full">
+                      <TabsList className="grid w-full grid-cols-3">
+                        {whereToWatch.flatrate && (
+                          <TabsTrigger value="subscription">
+                            Subscription
+                          </TabsTrigger>
+                        )}
+                        {whereToWatch.rent && (
+                          <TabsTrigger value="rent">Rent</TabsTrigger>
+                        )}
+                        {whereToWatch.buy && (
+                          <TabsTrigger value="buy">Buy</TabsTrigger>
+                        )}
+                      </TabsList>
+
+                      {/* Subscription */}
+                      {whereToWatch.flatrate && (
+                        <TabsContent value="subscription">
+                          <ProviderList providers={whereToWatch.flatrate} />
+                        </TabsContent>
                       )}
-                      {rating.Source == "Rotten Tomatoes" && (
-                        <SiRottentomatoes className="text-[#fa320a] text-6xl xl:text-8xl" />
+
+                      {/* Rent */}
+                      {whereToWatch.rent && (
+                        <TabsContent value="rent">
+                          <ProviderList providers={whereToWatch.rent} />
+                        </TabsContent>
                       )}
-                      {rating.Source == "Metacritic" && (
-                        <SiMetacritic className="text-[#00ce7a] text-6xl xl:text-8xl" />
+
+                      {/* Buy */}
+                      {whereToWatch.buy && (
+                        <TabsContent value="buy">
+                          <ProviderList providers={whereToWatch.buy} />
+                        </TabsContent>
                       )}
-                      <p className="text-[var(--highlight)]">{rating.Value}</p>
-                    </div>
-                  );
-                })
+                    </Tabs>
+                    {whereToWatch && (
+                      <p className="text-xs mt-4 text-muted-foreground">
+                        Data made available from{" "}
+                        <Link
+                          to={whereToWatch.link}
+                          className="underline"
+                          target="__blank"
+                        >
+                          TMDB API
+                        </Link>
+                      </p>
+                    )}
+                  </>
+                ) : (
+                  <div className="flex items-center justify-center h-[100px]">
+                    <p className="text-center text-[var(--highlight)]">
+                      No Services found
+                    </p>
+                  </div>
+                )
               ) : (
-                <h3 className="text-xl font-[600] text-[var(--highlight)]">
-                  No Ratings Available
-                </h3>
+                <div className="flex items-center justify-center h-[100px]">
+                  <Loader2 className="animate-spin" />
+                </div>
               )}
-            </div>
+            </CardContent>
           </Card>
         </motion.div>
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 100 }}
-      >
-        <Card className="h-full p-4 mt-4">
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TableCell className="font-[600]">Director</TableCell>
-                <TableCell className="text-[var(--highlight)]">
-                  {movie.Director}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-[600]">Writers</TableCell>
-                <TableCell className="text-[var(--highlight)]">
-                  {movie.Writer}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-[600]">Cast</TableCell>
-                <TableCell className="text-[var(--highlight)]">
-                  {movie.Actors}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-[600]">Awards</TableCell>
-                <TableCell className="text-[var(--highlight)]">
-                  {movie.Awards}
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell className="font-[600]">Collection</TableCell>
-                <TableCell className="text-[var(--highlight)]">
-                  {movie.BoxOffice ?? "N/A"}
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </Card>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 100 }}
-      >
-        <Card className="h-full p-4 mt-4 space-y-4">
-          <CardTitle>
-            <h3 className="text-xl">Where to watch</h3>
-          </CardTitle>
-          <CardContent className="p-0">
-            {!loadingWatch ? (
-              whereToWatch ? (
-                <>
-                  <Tabs defaultValue={getDefaultTab()} className="w-full">
-                    <TabsList className="grid w-full grid-cols-3">
-                      {whereToWatch.flatrate && (
-                        <TabsTrigger value="subscription">
-                          Subscription
-                        </TabsTrigger>
-                      )}
-                      {whereToWatch.rent && (
-                        <TabsTrigger value="rent">Rent</TabsTrigger>
-                      )}
-                      {whereToWatch.buy && (
-                        <TabsTrigger value="buy">Buy</TabsTrigger>
-                      )}
-                    </TabsList>
-
-                    {/* Subscription */}
-                    {whereToWatch.flatrate && (
-                      <TabsContent value="subscription">
-                        <ProviderList providers={whereToWatch.flatrate} />
-                      </TabsContent>
-                    )}
-
-                    {/* Rent */}
-                    {whereToWatch.rent && (
-                      <TabsContent value="rent">
-                        <ProviderList providers={whereToWatch.rent} />
-                      </TabsContent>
-                    )}
-
-                    {/* Buy */}
-                    {whereToWatch.buy && (
-                      <TabsContent value="buy">
-                        <ProviderList providers={whereToWatch.buy} />
-                      </TabsContent>
-                    )}
-                  </Tabs>
-                  {whereToWatch && (
-                    <p className="text-xs mt-4 text-muted-foreground">
-                      Data made available from{" "}
-                      <Link
-                        to={whereToWatch.link}
-                        className="underline"
-                        target="__blank"
-                      >
-                        TMDB API
-                      </Link>
-                    </p>
-                  )}
-                </>
-              ) : (
-                <div className="flex items-center justify-center h-[100px]">
-                  <p className="text-center text-[var(--highlight)]">
-                    No Services found
-                  </p>
-                </div>
-              )
-            ) : (
-              <div className="flex items-center justify-center h-[100px]">
-                <Loader2 className="animate-spin" />
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </motion.div>
-    </div>
+    </main>
   );
 }
 

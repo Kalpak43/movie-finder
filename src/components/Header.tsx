@@ -79,7 +79,7 @@ function Header() {
           <Searchbar setIsFocused={setIsFocused} />
           {isFocused && (
             <Card className="search-panel absolute top-full my-2 inset-x-0 rounded-md overflow-hidden">
-              <ScrollArea className=" h-[300px] overflow-y-auto space-y-2 py-4">
+              <ScrollArea className=" max-h-[300px] overflow-y-auto space-y-2 py-4">
                 {movies.length > 0 ? (
                   movies.map((movie) => (
                     <Link
@@ -210,7 +210,7 @@ function Header() {
           <Searchbar setIsFocused={setOpen} />
 
           <Card className="absolute top-full  inset-x-0 rounded-md overflow-hidden">
-            <ScrollArea className=" h-[300px] overflow-y-auto space-y-2 py-4">
+            <ScrollArea className=" max-h-[300px] overflow-y-auto space-y-2 py-4">
               {movies.length > 0 ? (
                 movies.map((movie) => (
                   <Link

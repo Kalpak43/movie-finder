@@ -83,45 +83,47 @@ function Searchpage() {
   };
 
   return (
-    <div className="py-4">
-      {status == "loading" && (
-        <div className="min-h-[80dvh] flex items-center justify-center">
-          <Loader2 className="animate-spin" />
-        </div>
-      )}
-      {/* {status == "failed" && <p></p>} */}
+    <main className="px-8 md:px-20 py-10">
+      <div className="py-4">
+        {status == "loading" && (
+          <div className="min-h-[80dvh] flex items-center justify-center">
+            <Loader2 className="animate-spin" />
+          </div>
+        )}
+        {/* {status == "failed" && <p></p>} */}
 
-      {status === "succeeded" && moviesWithFav.length > 0 ? (
-        <>
-          <h1 className="text-2xl font-bold">
-            Showing search results for:{" "}
-            <span className="text-[var(--highlight)]">{query}</span>{" "}
-          </h1>
-          <ScrollArea className="w-full whitespace-nowrap overflow-x-auto py-2">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              {moviesWithFav.map((movie) => (
-                <MovieCard
-                  movie={movie}
-                  handleAddToFavorties={handleAddToFavorties}
-                  handleRemoveFavorites={removeFromFavorites}
-                  key={movie.imdbID}
-                />
-              ))}
-            </div>
-          </ScrollArea>
-        </>
-      ) : (
-        <div className="min-h-[70dvh] text-lg text-center flex flex-col justify-center items-center justify-center">
-          <p>
-            No movies found for term:
-            <span className="text-[var(--highlight)]"> {query}</span>
-          </p>
-          <ButtonLink to={"/"} variant="outline" className="ml-4">
-            Go back
-          </ButtonLink>
-        </div>
-      )}
-    </div>
+        {status === "succeeded" && moviesWithFav.length > 0 ? (
+          <>
+            <h1 className="text-2xl font-bold">
+              Showing search results for:{" "}
+              <span className="text-[var(--highlight)]">{query}</span>{" "}
+            </h1>
+            <ScrollArea className="w-full whitespace-nowrap overflow-x-auto py-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                {moviesWithFav.map((movie) => (
+                  <MovieCard
+                    movie={movie}
+                    handleAddToFavorties={handleAddToFavorties}
+                    handleRemoveFavorites={removeFromFavorites}
+                    key={movie.imdbID}
+                  />
+                ))}
+              </div>
+            </ScrollArea>
+          </>
+        ) : (
+          <div className="min-h-[70dvh] text-lg text-center flex flex-col justify-center items-center justify-center">
+            <p>
+              No movies found for term:
+              <span className="text-[var(--highlight)]"> {query}</span>
+            </p>
+            <ButtonLink to={"/"} variant="outline" className="ml-4">
+              Go back
+            </ButtonLink>
+          </div>
+        )}
+      </div>
+    </main>
   );
 }
 
