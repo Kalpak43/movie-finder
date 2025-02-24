@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/app/hook";
 import MovieCard from "@/components/MovieCard";
+import MovieCarousel from "@/components/MovieCarousel";
 import Searchbar from "@/components/Searchbar";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Card } from "@/components/ui/card";
@@ -157,31 +158,39 @@ function Homepage() {
 
           {status === "succeeded" && moviesWithFav.length > 0 && (
             <>
-              <h1 className="text-2xl font-bold p-2 bg-[var(--highlight-2)] rounded-md text-center shadow-md">
-                Recommendations
-              </h1>
+              <div className="md:hidden space-y-4">
+                <h1 className="text-2xl font-bold p-2 bg-[var(--highlight-2)] rounded-md text-center shadow-md">
+                  Recommendations
+                </h1>
 
-              <AnimatePresence>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-                  {moviesWithFav.map((movie) => (
-                    <motion.div
-                      layout
-                      key={movie.imdbID}
-                      initial={{ opacity: 0, y: 100 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -100 }}
-                      transition={{ delay: 0.3 }}
-                    >
-                      <MovieCard
+                <AnimatePresence>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                    {moviesWithFav.map((movie) => (
+                      <motion.div
+                        layout
                         key={movie.imdbID}
-                        movie={movie}
-                        handleAddToFavorties={handleAddToFavorties}
-                        handleRemoveFavorites={removeFromFavorites}
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-              </AnimatePresence>
+                        initial={{ opacity: 0, y: 100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -100 }}
+                        transition={{ delay: 0.3 }}
+                      >
+                        <MovieCard
+                          key={movie.imdbID}
+                          movie={movie}
+                          handleAddToFavorties={handleAddToFavorties}
+                          handleRemoveFavorites={removeFromFavorites}
+                        />
+                      </motion.div>
+                    ))}
+                  </div>
+                </AnimatePresence>
+              </div>
+
+              <MovieCarousel
+                moviesWithFav={moviesWithFav}
+                handleAddToFavorties={handleAddToFavorties}
+                removeFromFavorites={removeFromFavorites}
+              />
             </>
           )}
         </div>

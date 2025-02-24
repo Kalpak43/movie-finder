@@ -73,3 +73,12 @@ header {
 ::-webkit-scrollbar-track {
   background-color: #8989893b;
 }
+
+/* Custom styles for Slick dots */
+.slick-dots li button:before {
+  color: var(--muted-foreground) !important; /* dots color */
+}
+
+.slick-dots li.slick-active button:before {
+  color: var(--muted-foreground) !important; /* active dot color */
+}

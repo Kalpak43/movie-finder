@@ -209,13 +209,14 @@ function Header() {
         <div className="p-4 absolute inset-x-0 top-full bg-[var(--header)] md:hidden">
           <Searchbar setIsFocused={setOpen} />
 
-          <Card className="absolute top-full  inset-x-0 rounded-md overflow-hidden">
-            <ScrollArea className=" max-h-[300px] overflow-y-auto space-y-2 py-4">
+          <div className="absolute top-full inset-x-0 overflow-hidden bg-card">
+            <ScrollArea className=" max-h-[300px] overflow-y-auto space-y-2 py-4 px-2">
               {movies.length > 0 ? (
                 movies.map((movie) => (
                   <Link
-                    to={"/movie/" + movie.imdbID}
-                    className={`flex items-center gap-2 w-full ${
+                    key={movie.imdbID}
+                    to={`/movie/${movie.imdbID}`}
+                    className={`flex items-center gap-4 p-2 rounded-md transition-colors ${
                       theme === "dark"
                         ? "hover:bg-gray-800"
                         : "hover:bg-gray-200"
@@ -228,11 +229,13 @@ function Header() {
                           : movie.Poster
                       }
                       alt={movie.Title}
-                      className="h-16 aspect-square object-cover"
+                      className="h-16 w-16 object-cover rounded"
                     />
                     <div>
-                      <h4>{movie.Title}</h4>
-                      <p>{movie.Year}</p>
+                      <h4 className="font-semibold">{movie.Title}</h4>
+                      <p className="text-sm text-muted-foreground">
+                        {movie.Year}
+                      </p>
                     </div>
                   </Link>
                 ))
@@ -245,7 +248,7 @@ function Header() {
                 </>
               )}
             </ScrollArea>
-          </Card>
+          </div>
         </div>
       )}
     </header>
