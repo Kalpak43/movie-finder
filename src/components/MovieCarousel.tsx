@@ -26,7 +26,7 @@ function MovieCarousel({
     autoplaySpeed: 3000,
     className: "slider",
     responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 5 } },
+      { breakpoint: 1200, settings: { slidesToShow: 5 } },
       { breakpoint: 768, settings: { slidesToShow: 3 } },
       { breakpoint: 480, settings: { slidesToShow: 1 } },
     ],
@@ -78,7 +78,7 @@ function MovieCarousel({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -100 }}
               transition={{ delay: 0.3 }}
-              className="px-2"
+              className="px-1"
             >
               <MovieCard
                 movie={movie}
