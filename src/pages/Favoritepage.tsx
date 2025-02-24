@@ -58,7 +58,9 @@ function Favoritepage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Your Favorites: </h1>
+      <h1 className="text-2xl font-bold p-2 bg-[var(--highlight-2)] rounded-md text-center shadow-md">
+        Your Favorites
+      </h1>
       <AnimatePresence>
         {favorites.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">

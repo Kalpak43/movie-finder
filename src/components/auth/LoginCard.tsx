@@ -92,7 +92,7 @@ function LoginCard() {
   return (
     <Card className="relative z-10 w-full max-w-md mx-auto shadow-lg">
       <CardHeader>
-        <CardTitle className="text-xl text-center">Log in</CardTitle>
+        <CardTitle className="text-2xl text-center text-[#f6c700]">Log in</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">

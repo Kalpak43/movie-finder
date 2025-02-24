@@ -62,7 +62,7 @@ function Header() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                className="md:hidden"
+                className="md:hidden text-black"
                 variant={"ghost"}
                 onClick={() => setOpen((x) => !x)}
               >
@@ -92,7 +92,11 @@ function Header() {
                       }`}
                     >
                       <img
-                        src={movie.Poster || "/placeholder.svg"}
+                        src={
+                          movie.Poster === "N/A"
+                            ? "/placeholder.png"
+                            : movie.Poster
+                        }
                         alt={movie.Title}
                         className="h-16 w-16 object-cover rounded"
                       />
@@ -218,7 +222,11 @@ function Header() {
                     }`}
                   >
                     <img
-                      src={movie.Poster}
+                      src={
+                        movie.Poster === "N/A"
+                          ? "/placeholder.png"
+                          : movie.Poster
+                      }
                       alt={movie.Title}
                       className="h-16 aspect-square object-cover"
                     />

@@ -81,42 +81,46 @@ function Homepage() {
   };
 
   return (
-    <div className="py-4 space-y-4">
-      {status == "loading" && (
-        <div className="min-h-[80dvh] flex items-center justify-center">
-          <Loader2 className="animate-spin" />
-        </div>
-      )}
-      {status == "failed" && <p>Failed to fetch</p>}
+    <>
+      <div className="py-4 space-y-4">
+        {status == "loading" && (
+          <div className="min-h-[80dvh] flex items-center justify-center">
+            <Loader2 className="animate-spin" />
+          </div>
+        )}
+        {status == "failed" && <p>Failed to fetch</p>}
 
-      {status === "succeeded" && moviesWithFav.length > 0 && (
-        <>
-          <h1 className="text-2xl font-bold">Recommendations: </h1>
+        {status === "succeeded" && moviesWithFav.length > 0 && (
+          <>
+            <h1 className="text-2xl font-bold p-2 bg-[var(--highlight-2)] rounded-md text-center shadow-md">
+              Recommendations
+            </h1>
 
-          <AnimatePresence>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-              {moviesWithFav.map((movie) => (
-                <motion.div
-                  layout
-                  key={movie.imdbID}
-                  initial={{ opacity: 0, y: 100 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -100 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  <MovieCard
+            <AnimatePresence>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                {moviesWithFav.map((movie) => (
+                  <motion.div
+                    layout
                     key={movie.imdbID}
-                    movie={movie}
-                    handleAddToFavorties={handleAddToFavorties}
-                    handleRemoveFavorites={removeFromFavorites}
-                  />
-                </motion.div>
-              ))}
-            </div>
-          </AnimatePresence>
-        </>
-      )}
-    </div>
+                    initial={{ opacity: 0, y: 100 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -100 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <MovieCard
+                      key={movie.imdbID}
+                      movie={movie}
+                      handleAddToFavorties={handleAddToFavorties}
+                      handleRemoveFavorites={removeFromFavorites}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+            </AnimatePresence>
+          </>
+        )}
+      </div>
+    </>
   );
 }
 

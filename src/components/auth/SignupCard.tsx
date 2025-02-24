@@ -131,7 +131,9 @@ function SignupCard() {
   return (
     <Card className="relative z-10 w-full max-w-md mx-auto shadow-lg">
       <CardHeader>
-        <CardTitle className="text-center text-blue-600">Sign up</CardTitle>
+        <CardTitle className="text-2xl text-center text-blue-600">
+          Sign up
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">

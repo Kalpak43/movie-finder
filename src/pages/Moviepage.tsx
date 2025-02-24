@@ -203,7 +203,7 @@ function MoviePage() {
         >
           <Card className="w-full overflow-clip">
             <img
-              src={movie.Poster}
+              src={movie.Poster === "N/A" ? "/placeholder.png" : movie.Poster}
               alt={movie.Title}
               className="w-full h-full rounded-lg shadow-md object-cover"
             />

@@ -21,7 +21,7 @@ function MovieCard({
     <Card className="min-w-[200px] shadow-lg relative h-full flex flex-col">
       <CardHeader className="p-2">
         <img
-          src={movie.Poster}
+          src={movie.Poster === "N/A" ? "/placeholder.png" : movie.Poster}
           alt={`${movie.Title} Poster`}
           className="w-full aspect-[3/4] object-cover rounded-md border-1 border-[var(--muted-foreground)]"
         />
