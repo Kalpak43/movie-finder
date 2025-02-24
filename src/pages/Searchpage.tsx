@@ -60,10 +60,11 @@ function Searchpage() {
       )}
       {/* {status == "failed" && <p></p>} */}
 
-      {status === "succeeded" && moviesWithFav.length > 0 && (
+      {status === "succeeded" && moviesWithFav.length > 0 ? (
         <>
           <h1 className="text-2xl font-bold">
-            Showing search results for: <span className="text-[var(--highlight)]">{query}</span>{" "}
+            Showing search results for:{" "}
+            <span className="text-[var(--highlight)]">{query}</span>{" "}
           </h1>
           <ScrollArea className="w-full whitespace-nowrap overflow-x-auto py-2">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -78,6 +79,11 @@ function Searchpage() {
             </div>
           </ScrollArea>
         </>
+      ) : (
+        <div className="min-h-[70dvh] text-lg flex items-center justify-center">
+          No movies found for term:
+          <span className="text-[var(--highlight)]"> {query}</span>
+        </div>
       )}
     </div>
   );
