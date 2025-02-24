@@ -61,7 +61,7 @@ function Favoritepage() {
       <h1 className="text-2xl font-bold">Your Favorites: </h1>
       <AnimatePresence>
         {favorites.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
             {favorites.map((fav) => (
               <motion.div
                 layout
