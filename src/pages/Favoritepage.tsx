@@ -14,6 +14,10 @@ function Favoritepage() {
   const { favorites } = useAppSelector((state) => state.movies);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  useEffect(() => {
     if (user) dispatch(getFavorites(user.id));
   }, [user]);
 
