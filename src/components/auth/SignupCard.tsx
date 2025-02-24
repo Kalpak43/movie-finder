@@ -117,17 +117,25 @@ function SignupCard() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      await dispatch(signUp(formData));
-      toast({
-        title: "Sign up successful",
-        description:
-          "A verification mail has been sent. Please verify before login.",
-        variant: "success",
-      });
-      navigate("/login");
+      const result = await dispatch(signUp(formData));
+
+      if (signUp.fulfilled.match(result)) {
+        toast({
+          title: "Sign up successful",
+          description:
+            "A verification mail has been sent. Please verify before login.",
+          variant: "success",
+        });
+        navigate("/login");
+      } else {
+        toast({
+          title: "Sign up failed",
+          description: "Please try again.",
+          variant: "destructive",
+        });
+      }
     }
   };
-
   return (
     <Card className="relative z-10 w-full max-w-md mx-auto shadow-lg">
       <CardHeader>
