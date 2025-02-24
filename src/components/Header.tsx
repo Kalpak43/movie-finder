@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical, Search, SearchIcon, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ButtonLink } from "./ui/ButtonLink";
 import {
@@ -21,6 +21,7 @@ import {
 import { Card } from "./ui/card";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { useTheme } from "@/contexts/ThemeProvider";
+import { setMovies } from "@/features/movies/movieSlice";
 
 function Header() {
   const { theme } = useTheme();
@@ -33,6 +34,10 @@ function Header() {
 
   const [open, setOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+
+  useEffect(() => {
+    if (!open) dispatch(setMovies([]));
+  }, [open]);
 
   const handleSignout = async () => {
     await dispatch(signOut());
