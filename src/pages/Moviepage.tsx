@@ -18,6 +18,8 @@ import { useTheme } from "@/contexts/ThemeProvider";
 import { useToast } from "@/hooks/use-toast";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 
+import { motion } from "motion/react";
+
 const API_KEY = import.meta.env.VITE_OMDB_KEY;
 const BASE_URL = import.meta.env.VITE_OMDB_URL;
 
@@ -204,7 +206,7 @@ function MoviePage() {
   };
 
   return (
-    <div className="space-y-2 pb-4">
+    <div className="space-y-2 pb-4 overflow-x-hidden">
       {theme == "dark" && (
         <canvas
           ref={canvasRef}
@@ -213,7 +215,13 @@ function MoviePage() {
           height={1080}
         />
       )}
-      <div className="space-y-2">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ delay: 0.1 }}
+        className="space-y-2"
+      >
         <h1 className="text-3xl font-[500]">{movie.Title}</h1>
         <div className="flex max-md:flex-col  md:items-center justify-between py-1">
           <div className="flex items-center gap-2">
@@ -240,16 +248,23 @@ function MoviePage() {
             {movie.fav ? "Remove From Favourites" : "Add to Favourites"}
           </Button>
         </div>
-      </div>
+      </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
-        <Card className="w-full overflow-clip">
-          <img
-            src={movie.Poster}
-            alt={movie.Title}
-            className="w-full h-full rounded-lg shadow-md object-cover"
-          />
-        </Card>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <Card className="w-full overflow-clip">
+            <img
+              src={movie.Poster}
+              alt={movie.Title}
+              className="w-full h-full rounded-lg shadow-md object-cover"
+            />
+          </Card>
+        </motion.div>
         <Button
           onClick={() => {
             movie.fav
@@ -265,7 +280,13 @@ function MoviePage() {
           <Star />
           {movie.fav ? "Remove From Favourites" : "Add to Favourites"}
         </Button>
-        <div className="md:col-span-2 xl:col-span-3 h-full">
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 100 }}
+          transition={{ delay: 0.1 }}
+          className="md:col-span-2 xl:col-span-3 h-full"
+        >
           <Card className="h-full p-4 flex flex-col gap-4">
             <Table>
               <TableBody>
@@ -325,116 +346,128 @@ function MoviePage() {
               )}
             </div>
           </Card>
-        </div>
+        </motion.div>
       </div>
 
-      <Card className="h-full p-4 mt-4">
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TableCell className="font-[600]">Director</TableCell>
-              <TableCell className="text-[var(--highlight)]">
-                {movie.Director}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-[600]">Writers</TableCell>
-              <TableCell className="text-[var(--highlight)]">
-                {movie.Writer}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-[600]">Cast</TableCell>
-              <TableCell className="text-[var(--highlight)]">
-                {movie.Actors}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-[600]">Awards</TableCell>
-              <TableCell className="text-[var(--highlight)]">
-                {movie.Awards}
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-[600]">Collection</TableCell>
-              <TableCell className="text-[var(--highlight)]">
-                {movie.BoxOffice ?? "N/A"}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </Card>
-      <Card className="h-full p-4 mt-4 space-y-4">
-        <CardTitle>
-          <h3 className="text-xl">Where to watch</h3>
-        </CardTitle>
-        <CardContent className="p-0">
-          {!loadingWatch ? (
-            whereToWatch ? (
-              <>
-                <Tabs defaultValue={getDefaultTab()} className="w-full">
-                  <TabsList className="grid w-full grid-cols-3">
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 100 }}
+      >
+        <Card className="h-full p-4 mt-4">
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell className="font-[600]">Director</TableCell>
+                <TableCell className="text-[var(--highlight)]">
+                  {movie.Director}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-[600]">Writers</TableCell>
+                <TableCell className="text-[var(--highlight)]">
+                  {movie.Writer}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-[600]">Cast</TableCell>
+                <TableCell className="text-[var(--highlight)]">
+                  {movie.Actors}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-[600]">Awards</TableCell>
+                <TableCell className="text-[var(--highlight)]">
+                  {movie.Awards}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-[600]">Collection</TableCell>
+                <TableCell className="text-[var(--highlight)]">
+                  {movie.BoxOffice ?? "N/A"}
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </Card>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 100 }}
+      >
+        <Card className="h-full p-4 mt-4 space-y-4">
+          <CardTitle>
+            <h3 className="text-xl">Where to watch</h3>
+          </CardTitle>
+          <CardContent className="p-0">
+            {!loadingWatch ? (
+              whereToWatch ? (
+                <>
+                  <Tabs defaultValue={getDefaultTab()} className="w-full">
+                    <TabsList className="grid w-full grid-cols-3">
+                      {whereToWatch.flatrate && (
+                        <TabsTrigger value="subscription">
+                          Subscription
+                        </TabsTrigger>
+                      )}
+                      {whereToWatch.rent && (
+                        <TabsTrigger value="rent">Rent</TabsTrigger>
+                      )}
+                      {whereToWatch.buy && (
+                        <TabsTrigger value="buy">Buy</TabsTrigger>
+                      )}
+                    </TabsList>
+
+                    {/* Subscription */}
                     {whereToWatch.flatrate && (
-                      <TabsTrigger value="subscription">
-                        Subscription
-                      </TabsTrigger>
+                      <TabsContent value="subscription">
+                        <ProviderList providers={whereToWatch.flatrate} />
+                      </TabsContent>
                     )}
+
+                    {/* Rent */}
                     {whereToWatch.rent && (
-                      <TabsTrigger value="rent">Rent</TabsTrigger>
+                      <TabsContent value="rent">
+                        <ProviderList providers={whereToWatch.rent} />
+                      </TabsContent>
                     )}
+
+                    {/* Buy */}
                     {whereToWatch.buy && (
-                      <TabsTrigger value="buy">Buy</TabsTrigger>
+                      <TabsContent value="buy">
+                        <ProviderList providers={whereToWatch.buy} />
+                      </TabsContent>
                     )}
-                  </TabsList>
-
-                  {/* Subscription */}
-                  {whereToWatch.flatrate && (
-                    <TabsContent value="subscription">
-                      <ProviderList providers={whereToWatch.flatrate} />
-                    </TabsContent>
+                  </Tabs>
+                  {whereToWatch && (
+                    <p className="text-xs mt-4 text-muted-foreground">
+                      Data made available from{" "}
+                      <Link
+                        to={whereToWatch.link}
+                        className="underline"
+                        target="__blank"
+                      >
+                        TMDB API
+                      </Link>
+                    </p>
                   )}
-
-                  {/* Rent */}
-                  {whereToWatch.rent && (
-                    <TabsContent value="rent">
-                      <ProviderList providers={whereToWatch.rent} />
-                    </TabsContent>
-                  )}
-
-                  {/* Buy */}
-                  {whereToWatch.buy && (
-                    <TabsContent value="buy">
-                      <ProviderList providers={whereToWatch.buy} />
-                    </TabsContent>
-                  )}
-                </Tabs>
-                {whereToWatch && (
-                  <p className="text-xs mt-4 text-muted-foreground">
-                    Data made available from{" "}
-                    <Link
-                      to={whereToWatch.link}
-                      className="underline"
-                      target="__blank"
-                    >
-                      TMDB API
-                    </Link>
+                </>
+              ) : (
+                <div className="flex items-center justify-center h-[100px]">
+                  <p className="text-center text-[var(--highlight)]">
+                    No Services found
                   </p>
-                )}
-              </>
+                </div>
+              )
             ) : (
               <div className="flex items-center justify-center h-[100px]">
-                <p className="text-center text-[var(--highlight)]">
-                  No Services found
-                </p>
+                <Loader2 className="animate-spin" />
               </div>
-            )
-          ) : (
-            <div className="flex items-center justify-center h-[100px]">
-              <Loader2 className="animate-spin" />
-            </div>
-          )}
-        </CardContent>
-      </Card>
+            )}
+          </CardContent>
+        </Card>
+      </motion.div>
     </div>
   );
 }
