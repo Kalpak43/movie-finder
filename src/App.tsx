@@ -16,8 +16,10 @@ import Searchpage from "./pages/Searchpage";
 import ThemeToggler from "./components/ThemeToggler";
 import { Toaster } from "@/components/ui/toaster";
 import PageTransition from "./components/PageTransition";
+import { useToast } from "./hooks/use-toast";
 
 function App() {
+  const { toast } = useToast();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
 
@@ -42,13 +44,13 @@ function App() {
     };
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   if (user)
-  //     toast({
-  //       title: "Logged in successfully",
-  //       variant: "success",
-  //     });
-  // }, [user]);
+  useEffect(() => {
+    if (user)
+      toast({
+        title: "Logged in successfully",
+        variant: "success",
+      });
+  }, [user]);
 
   useEffect(() => {
     if (user) dispatch(getFavorites(user.id));

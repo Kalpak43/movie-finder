@@ -4,9 +4,10 @@ import { Link, useNavigate } from "react-router";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Loader2 } from "lucide-react";
+import { CircleCheck, CircleX, Loader2 } from "lucide-react";
 import { signUp } from "@/features/auth/authThunk";
 import { useToast } from "@/hooks/use-toast";
+import PasswordInput from "../PasswordInput";
 
 interface FormData {
   email: string;
@@ -33,6 +34,7 @@ function SignupCard() {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [rules, setRules] = useState<number[]>([]);
 
   useEffect(() => {
     if (error)
@@ -85,6 +87,33 @@ function SignupCard() {
     }));
   };
 
+  const validatePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setRules([]);
+    if (value.length >= 6) {
+      setRules((prevRules) => {
+        if (!prevRules.includes(1)) return [...prevRules, 1];
+        return prevRules;
+      });
+    }
+
+    if (/[A-Z]/.test(value)) {
+      setRules((prevRules) => {
+        if (!prevRules.includes(2)) return [...prevRules, 2];
+        return prevRules;
+      });
+    }
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+      // newErrors.password =
+      //   "Password must contain at least one special character";
+
+      setRules((prevRules) => {
+        if (!prevRules.includes(3)) return [...prevRules, 3];
+        return prevRules;
+      });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
@@ -126,16 +155,57 @@ function SignupCard() {
             <label htmlFor="password" className="block text-sm font-medium">
               Password
             </label>
-            <Input
-              type="password"
-              id="password"
+            <PasswordInput
               name="password"
               placeholder="Enter your Password"
               value={formData.password}
-              onChange={handleChange}
+              handleChange={(e) => {
+                handleChange(e);
+                validatePassword(e);
+              }}
             />
-            {errors.password && (
-              <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+            {formData.password.length > 0 && (
+              <div className="mt-2 text-xs">
+              <p className="text-[var(--highlight)]">
+                Password must contain:{" "}
+              </p>
+              <p
+                className={` ${
+                rules.includes(1) ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {rules.includes(1) ? (
+                <CircleCheck size={12} className="inline mr-2" />
+                ) : (
+                <CircleX size={12} className="inline mr-2" />
+                )}
+                At least 6 characters
+              </p>
+              <p
+                className={` ${
+                rules.includes(2) ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {rules.includes(2) ? (
+                <CircleCheck size={12} className="inline mr-2" />
+                ) : (
+                <CircleX size={12} className="inline mr-2" />
+                )}
+                At least one capital letter
+              </p>
+              <p
+                className={` ${
+                rules.includes(3) ? "text-green-500" : "text-red-500"
+                }`}
+              >
+                {rules.includes(3) ? (
+                <CircleCheck size={12} className="inline mr-2" />
+                ) : (
+                <CircleX size={12} className="inline mr-2" />
+                )}
+                At least one special character
+              </p>
+              </div>
             )}
           </div>
 
@@ -146,13 +216,11 @@ function SignupCard() {
             >
               Confirm Password
             </label>
-            <Input
-              type="password"
-              id="confirmPassword"
+            <PasswordInput
               name="confirmPassword"
               placeholder="Confirm your Password"
               value={formData.confirmPassword}
-              onChange={handleChange}
+              handleChange={handleChange}
             />
             {errors.confirmPassword && (
               <p className="text-red-500 text-xs mt-1">
