@@ -87,36 +87,21 @@ function SignupCard() {
     }));
   };
 
-  const validatePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setRules([]);
-    if (value.length >= 6) {
-      setRules((prevRules) => {
-        if (!prevRules.includes(1)) return [...prevRules, 1];
-        return prevRules;
-      });
-    }
+  const validatePassword = (value: string) => {
+    const rulesSet = new Set<number>(); // Using Set to avoid duplicates
 
-    if (/[A-Z]/.test(value)) {
-      setRules((prevRules) => {
-        if (!prevRules.includes(2)) return [...prevRules, 2];
-        return prevRules;
-      });
-    }
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
-      // newErrors.password =
-      //   "Password must contain at least one special character";
+    if (value.length >= 6) rulesSet.add(1);
+    if (/[A-Z]/.test(value)) rulesSet.add(2);
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(value)) rulesSet.add(3);
 
-      setRules((prevRules) => {
-        if (!prevRules.includes(3)) return [...prevRules, 3];
-        return prevRules;
-      });
-    }
+    setRules(Array.from(rulesSet)); // Updating state
+
+    return rulesSet.size === 3; // Return boolean for form validation
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (validateForm() && validatePassword(formData.password)) {
       const result = await dispatch(signUp(formData));
 
       if (signUp.fulfilled.match(result)) {
@@ -136,6 +121,7 @@ function SignupCard() {
       }
     }
   };
+
   return (
     <Card className="relative z-10 w-full max-w-md mx-auto shadow-lg">
       <CardHeader>
@@ -172,10 +158,10 @@ function SignupCard() {
               value={formData.password}
               handleChange={(e) => {
                 handleChange(e);
-                validatePassword(e);
+                validatePassword(e.target.value);
               }}
             />
-            {formData.password.length > 0 && (
+            {(errors.password || formData.password.length > 0) && (
               <div className="mt-2 text-xs">
                 <p className="text-[var(--highlight)]">
                   Password must contain:{" "}
