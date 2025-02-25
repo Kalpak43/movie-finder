@@ -206,7 +206,7 @@ function MoviePage() {
             exit={{ opacity: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="w-full overflow-clip">
+            <Card className="w-full overflow-clip h-full">
               <img
                 src={movie.Poster === "N/A" ? "/placeholder.png" : movie.Poster}
                 alt={movie.Title}
@@ -276,13 +276,13 @@ function MoviePage() {
                     return (
                       <div key={rating.Source} className="text-center">
                         {rating.Source == "Internet Movie Database" && (
-                          <FaImdb className="text-[#e2b616] text-6xl xl:text-8xl" />
+                          <FaImdb className="text-[#e2b616] text-6xl md:text-4xl lg:text-5xl xl:text-8xl" />
                         )}
                         {rating.Source == "Rotten Tomatoes" && (
-                          <SiRottentomatoes className="text-[#fa320a] text-6xl xl:text-8xl" />
+                          <SiRottentomatoes className="text-[#fa320a] text-6xl md:text-4xl lg:text-5xl xl:text-8xl" />
                         )}
                         {rating.Source == "Metacritic" && (
-                          <SiMetacritic className="text-[#00ce7a] text-6xl xl:text-8xl" />
+                          <SiMetacritic className="text-[#00ce7a] text-6xl md:text-4xl lg:text-5xl xl:text-8xl" />
                         )}
                         <p className="text-[var(--highlight)]">
                           {rating.Value}
