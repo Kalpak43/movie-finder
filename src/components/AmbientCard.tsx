@@ -1,8 +1,19 @@
 import { useTheme } from "@/contexts/ThemeProvider";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
+import { getDominantColor } from "@/lib/utils";
 
-function AmbientCard({ src }: { src: string }) {
+function AmbientCard({
+  src,
+  className,
+  width,
+  height,
+}: {
+  src: string;
+  className?: string;
+  width: number;
+  height: number;
+}) {
   const { theme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [dominantColor, setDominantColor] = useState<string>("#000000");
@@ -61,34 +72,11 @@ function AmbientCard({ src }: { src: string }) {
       animate={{ opacity: 1 }}
       transition={{ duration: 1, delay: 0.5 }}
       ref={canvasRef}
-      className="fixed z-[-1] inset-0 w-full h-full"
-      width={1920}
-      height={1080}
+      className={className ? className : "fixed z-[-1] inset-0 w-full h-full"}
+      width={width}
+      height={height}
     />
   );
 }
 
 export default AmbientCard;
-
-function getDominantColor(imageData: Uint8ClampedArray, theme: string): string {
-  let r = 0,
-    g = 0,
-    b = 0;
-  const pixelCount = imageData.length / 4;
-
-  for (let i = 0; i < imageData.length; i += 4) {
-    r += imageData[i];
-    g += imageData[i + 1];
-    b += imageData[i + 2];
-  }
-
-  r = Math.floor(r / pixelCount);
-  g = Math.floor(g / pixelCount);
-  b = Math.floor(b / pixelCount);
-
-  if (theme === "light") {
-    return `rgba(${r},${g},${b}, 0)`;
-  }
-
-  return `rgb(${r},${g},${b}, 0.5)`;
-}

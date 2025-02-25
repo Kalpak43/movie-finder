@@ -159,7 +159,9 @@ function MoviePage() {
   return (
     <main className="px-8 md:px-20 py-10">
       <div className="space-y-2 pb-4 overflow-x-hidden">
-        {theme == "dark" && movie.Poster && <AmbientCard src={movie.Poster} />}
+        {theme == "dark" && movie.Poster && (
+          <AmbientCard src={movie.Poster} width={1920} height={1080} />
+        )}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

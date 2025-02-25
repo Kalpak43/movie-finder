@@ -79,7 +79,7 @@ function MovieCarousel({
           {moviesWithFav.map((movie) => (
             <motion.div
               key={movie.imdbID}
-              className="px-1 hover:scale-110 my-8 transition-all duration-300"
+              className="px-1  my-8"
             >
               <MovieCard
                 movie={movie}
