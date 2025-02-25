@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "motion/react";
 import MovieCard from "./MovieCard";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRef } from "react";
+import { Button } from "./ui/button";
 
 function MovieCarousel({
   moviesWithFav,
@@ -48,48 +49,49 @@ function MovieCarousel({
 
   return (
     <div className="max-md:hidden">
-      <div className=" p-2 bg-[var(--highlight-2)] rounded-md text-center shadow-md flex justify-between gap-2 items-center">
+      <div className=" p-2 bg-[var(--highlight-2)] rounded-md text-center shadow-md flex justify-center gap-2 items-center">
         <h1 className="text-2xl font-bold">Recommendations</h1>
-        <div className="flex items-center gap-2">
-          <button
-            className="cursor-pointer p-1 rounded-full border-2 border-foreground hover:bg-foreground hover:text-background transition-all duration-300"
+      </div>
+
+      <div className="relative">
+        <AnimatePresence>
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            className="absolute translate-x-[-105%] inset-y-0 my-auto z-10 cursor-pointer text-white hover:text-white bg-blue-400 hover:bg-blue-400"
             onClick={previous}
           >
             <ChevronLeft />
-          </button>
-          <button
-            className="cursor-pointer p-1 rounded-full border-2 border-foreground hover:bg-foreground hover:text-background transition-all duration-300"
+          </Button>
+          <Slider
+            ref={(slider) => {
+              if (slider) {
+                sliderRef.current = slider;
+              }
+            }}
+            {...settings}
+            className="my-6"
+          >
+            {moviesWithFav.map((movie) => (
+              <motion.div key={movie.imdbID} className="px-1  my-8">
+                <MovieCard
+                  movie={movie}
+                  handleAddToFavorties={handleAddToFavorties}
+                  handleRemoveFavorites={removeFromFavorites}
+                />
+              </motion.div>
+            ))}
+          </Slider>
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            className="absolute translate-x-[105%] right-0 inset-y-0 my-auto z-10 cursor-pointer text-white hover:text-white bg-blue-400 hover:bg-blue-700"
             onClick={next}
           >
             <ChevronRight />
-          </button>
-        </div>
+          </Button>
+        </AnimatePresence>
       </div>
-
-      <AnimatePresence>
-        <Slider
-          ref={(slider) => {
-            if (slider) {
-              sliderRef.current = slider;
-            }
-          }}
-          {...settings}
-          className="my-6"
-        >
-          {moviesWithFav.map((movie) => (
-            <motion.div
-              key={movie.imdbID}
-              className="px-1  my-8"
-            >
-              <MovieCard
-                movie={movie}
-                handleAddToFavorties={handleAddToFavorties}
-                handleRemoveFavorites={removeFromFavorites}
-              />
-            </motion.div>
-          ))}
-        </Slider>
-      </AnimatePresence>
     </div>
   );
 }

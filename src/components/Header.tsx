@@ -62,77 +62,81 @@ function Header() {
       </Link>
 
       <nav className="flex items-center gap-4">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                className="md:hidden text-black"
-                variant={"ghost"}
-                onClick={() => setOpen((x) => !x)}
-              >
-                {open ? <X /> : <Search />}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Search a movie</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        {location.pathname !== "/" && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  className="md:hidden text-black"
+                  variant={"ghost"}
+                  onClick={() => setOpen((x) => !x)}
+                >
+                  {open ? <X /> : <Search />}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Search a movie</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
 
-        <div className="max-md:hidden relative">
-          <Searchbar setIsFocused={setIsFocused} />
-          {isFocused && (
-            <Card
-              className="search-panel absolute top-full my-2 inset-x-0 rounded-md overflow-hidden"
-              onClick={handlePanelClick}
-            >
-              <ScrollArea className=" max-h-[300px] overflow-y-auto space-y-2 py-4">
-                {movies.length > 0 ? (
-                  movies.map((movie) => (
-                    <Link
-                      key={movie.imdbID}
-                      to={`/movie/${movie.imdbID}`}
-                      className={`flex items-center gap-4 p-2 rounded-md transition-colors ${
-                        theme === "dark"
-                          ? "hover:bg-gray-800"
-                          : "hover:bg-gray-200"
-                      }`}
-                      onClick={() => {
-                        setIsFocused(false);
-                        console.log("clicked");
-                        navigate(`/movie/${movie.imdbID}`);
-                        setOpen(false);
-                      }}
-                    >
-                      <img
-                        src={
-                          movie.Poster === "N/A"
-                            ? "/placeholder.png"
-                            : movie.Poster
-                        }
-                        alt={movie.Title}
-                        className="h-16 w-16 object-cover rounded"
-                      />
-                      <div>
-                        <h4 className="font-semibold">{movie.Title}</h4>
-                        <p className="text-sm text-muted-foreground">
-                          {movie.Year}
-                        </p>
+        {location.pathname !== "/" && (
+          <div className="max-md:hidden relative">
+            <Searchbar setIsFocused={setIsFocused} />
+            {isFocused && (
+              <Card
+                className="search-panel absolute top-full my-2 inset-x-0 rounded-md overflow-hidden"
+                onClick={handlePanelClick}
+              >
+                <ScrollArea className=" max-h-[300px] overflow-y-auto space-y-2 py-4">
+                  {movies.length > 0 ? (
+                    movies.map((movie) => (
+                      <Link
+                        key={movie.imdbID}
+                        to={`/movie/${movie.imdbID}`}
+                        className={`flex items-center gap-4 p-2 rounded-md transition-colors ${
+                          theme === "dark"
+                            ? "hover:bg-gray-800"
+                            : "hover:bg-gray-200"
+                        }`}
+                        onClick={() => {
+                          setIsFocused(false);
+                          console.log("clicked");
+                          navigate(`/movie/${movie.imdbID}`);
+                          setOpen(false);
+                        }}
+                      >
+                        <img
+                          src={
+                            movie.Poster === "N/A"
+                              ? "/placeholder.png"
+                              : movie.Poster
+                          }
+                          alt={movie.Title}
+                          className="h-16 w-16 object-cover rounded"
+                        />
+                        <div>
+                          <h4 className="font-semibold">{movie.Title}</h4>
+                          <p className="text-sm text-muted-foreground">
+                            {movie.Year}
+                          </p>
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    <>
+                      <div className="h-full w-full flex items-center justify-center gap-2">
+                        <SearchIcon size={20} />
+                        Search Something
                       </div>
-                    </Link>
-                  ))
-                ) : (
-                  <>
-                    <div className="h-full w-full flex items-center justify-center gap-2">
-                      <SearchIcon size={20} />
-                      Search Something
-                    </div>
-                  </>
-                )}
-              </ScrollArea>
-            </Card>
-          )}
-        </div>
+                    </>
+                  )}
+                </ScrollArea>
+              </Card>
+            )}
+          </div>
+        )}
         {user ? (
           <>
             <DropdownMenu>
