@@ -9,6 +9,7 @@ import {
 } from "./ui/tooltip";
 import { Link } from "react-router";
 import AmbientCard from "./AmbientCard";
+import { useTheme } from "@/contexts/ThemeProvider";
 
 function MovieCard({
   movie,
@@ -19,6 +20,7 @@ function MovieCard({
   handleAddToFavorties: (movie: MovieType) => void;
   handleRemoveFavorites: (movie: MovieType) => void;
 }) {
+  const { theme } = useTheme();
   return (
     <Link to={`/movie/${movie.imdbID}`} className="overflow-hidden">
       <Card className="min-w-[200px] shadow-lg relative h-full flex flex-col hover:scale-105 transition-all duration-300">
@@ -82,12 +84,14 @@ function MovieCard({
             </ButtonLink>
           </div>
         </CardContent>
-        {/* <AmbientCard
-          src={movie.Poster}
-          className="absolute z-[-1] bottom-0 inset-x-0 opacity-0 hover:opacity-100 transition-all duration-300"
-          width={300}
-          height={300}
-        /> */}
+        {theme === "dark" && (
+          <AmbientCard
+            src={movie.Poster}
+            className="absolute z-[-1] bottom-0 inset-x-0 opacity-0 hover:opacity-100 transition-all duration-300 delay-300"
+            width={300}
+            height={300}
+          />
+        )}
       </Card>
     </Link>
   );
