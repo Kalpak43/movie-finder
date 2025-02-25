@@ -48,7 +48,7 @@ function Searchbar({
           value={search}
           onChange={(e) => handleChange(e)}
           onFocus={() => setIsFocused(true)}
-          onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+          // onBlur={() => setTimeout(() => setIsFocused(false), 200)}
         />
         <Button
           variant={"ghost"}

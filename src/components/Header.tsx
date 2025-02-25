@@ -51,6 +51,10 @@ function Header() {
     navigate(path, { state: { from: location } });
   };
 
+  const handlePanelClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent the click event from bubbling up
+  };
+
   return (
     <header className=" flex items-center shadow-md gap-8 justify-between border-b-1 py-4 px-4 md:px-8 sticky top-0 z-50">
       <Link to={"/"}>
@@ -78,7 +82,10 @@ function Header() {
         <div className="max-md:hidden relative">
           <Searchbar setIsFocused={setIsFocused} />
           {isFocused && (
-            <Card className="search-panel absolute top-full my-2 inset-x-0 rounded-md overflow-hidden">
+            <Card
+              className="search-panel absolute top-full my-2 inset-x-0 rounded-md overflow-hidden"
+              onClick={handlePanelClick}
+            >
               <ScrollArea className=" max-h-[300px] overflow-y-auto space-y-2 py-4">
                 {movies.length > 0 ? (
                   movies.map((movie) => (
@@ -90,6 +97,12 @@ function Header() {
                           ? "hover:bg-gray-800"
                           : "hover:bg-gray-200"
                       }`}
+                      onClick={() => {
+                        setIsFocused(false);
+                        console.log("clicked");
+                        navigate(`/movie/${movie.imdbID}`);
+                        setOpen(false);
+                      }}
                     >
                       <img
                         src={

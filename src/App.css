@@ -82,3 +82,6 @@ header {
 .slick-dots li.slick-active button:before {
   color: var(--muted-foreground) !important; /* active dot color */
 }
+.search-panel {
+  pointer-events: auto;
+}
